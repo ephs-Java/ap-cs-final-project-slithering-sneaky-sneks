@@ -1,4 +1,6 @@
 
 public class Snake {
-	//test
+	
+	private int snakeLength;
+	
 }
