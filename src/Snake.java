@@ -90,18 +90,16 @@ public class Snake {
 	/*
 	 * Returns either 0, 1, or 2 to represent the path the snake will take
 	 */
-	public static int choosePath() {
+	public int choosePath() {
 		
 		Random random = new Random();
 		int path = random.nextInt(3);
 		
-		if(isLeft() && isFacingNorth()) {
-			while(path == 1) {
-				path = random.nextInt(3);
-			}
-		}
+		if (this.isFacingNorth){
 			
-		
+		} else if (this.isFacingEast){
+			
+		}
 		
 		return path;
 	}
