@@ -72,8 +72,17 @@ public class Snake {
 	 * Returns either 0, 1, or 2 to represent the path the snake will take
 	 */
 	public static int choosePath() {
+		
 		Random random = new Random();
 		int path = random.nextInt(3);
+		
+		if(isLeft() && isFacingNorth()) {
+			while(path == 1) {
+				path = random.nextInt(3);
+			}
+		}
+			
+		
 		
 		return path;
 	}
@@ -82,10 +91,12 @@ public class Snake {
 	 * Moves each element of the snake depending on the path that is randomly
 	 * selected
 	 */
-	public void moveSnake() {
-		if(choosePath() == 0) {
+	public void moveSnake(int path) {
+		path = choosePath();
+		
+		if(path == 0) {
 			//move forward
-		} else if(choosePath() == 1) {
+		} else if(path == 1) {
 			//turn left
 		} else {
 			//turn right
