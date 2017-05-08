@@ -114,6 +114,16 @@ public class Snake {
 	 */
 	public boolean isFacingNorth() {
 		
+		if(head.getPosition()[0] == gameboard.getSquares().length - 1) {
+			return false;
+		} else {
+			if(head.getPosition()[0] - 1 == second.getPosition()[0]) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
 	}
 	
 	/*
@@ -121,7 +131,15 @@ public class Snake {
 	 * Returns false otherwise
 	 */
 	public boolean isFacingSouth() {
-		
+		if(head.getPosition()[0] == 0) {
+			return false;
+		} else {
+			if(head.getPosition()[0] + 1 == second.getPosition()[0]) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 	
 	/*
@@ -129,7 +147,15 @@ public class Snake {
 	 * Returns false otherwise
 	 */
 	public boolean isFacingEast() {
-		
+		if(head.getPosition()[1] == 0) {
+			return false;
+		} else {
+			if(head.getPosition()[1] - 1 == second.getPosition()[1]) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 	
 	/*
@@ -137,7 +163,15 @@ public class Snake {
 	 * Returns false otherwise
 	 */
 	public boolean isFacingWest() {
-		
+		if(head.getPosition()[1] == gameboard.getSquares()[0].length - 1) {
+			return false;
+		} else {
+			if(head.getPosition()[1] + 1 == second.getPosition()[1]) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 	
 }
