@@ -51,38 +51,38 @@ public class Snake {
 	 * Returns true if part of the tail is directly to the right of the head
 	 * Returns false otherwise
 	 */
-	public boolean udpateIsRight() {
+	public void udpateIsRight() {
 		if(head.getPosition()[1] == gameboard.getSquares()[0].length - 1) {
-			return false;
+			this.isRight = false;
 		} else {
 			if(gameboard.getSquares()[head.getPosition()[0]][head.getPosition()[1] + 1] == 1) {
-				return true;
+				this.isRight = true;
 			} else {
-				return false;
+				this.isRight = false;
 			}
 		}
 	}
 	
-	public boolean updateIsAbove() {
+	public void updateIsAbove() {
 		if(head.getPosition()[0] == 0) {
-			return false;
+			this.isAbove = false;
 		} else {
 			if(gameboard.getSquares()[head.getPosition()[0] + 1][head.getPosition()[1]] == 1) {
-				return true;
+				this.isAbove = true;
 			} else {
-				return false;
+				this.isAbove = false;
 			}
 		}
 	}
 	
-	public boolean updateIsBelow() {
+	public void updateIsBelow() {
 		if(head.getPosition()[0] == gameboard.getSquares().length - 1) {
-			return false;
+			this.isBelow = false;
 		} else {
 			if(gameboard.getSquares()[head.getPosition()[0] - 1][head.getPosition()[1]] == 1) {
-				return true;
+				this.isBelow = true;
 			} else {
-				return false;
+				this.isBelow = false;
 			}
 		}
 	}
@@ -142,15 +142,15 @@ public class Snake {
 	 * Returns true if the head is facing north
 	 * Returns false otherwise
 	 */
-	public boolean updateIsFacingNorth() {
+	public void updateIsFacingNorth() {
 		
 		if(head.getPosition()[0] == gameboard.getSquares().length - 1) {
-			return false;
+			this.isFacingNorth = false;
 		} else {
 			if(head.getPosition()[0] - 1 == second.getPosition()[0]) {
-				return true;
+				this.isFacingNorth = true;
 			} else {
-				return false;
+				this.isFacingNorth = false;
 			}
 		}
 		
@@ -160,14 +160,14 @@ public class Snake {
 	 * Returns true if the head is facing south
 	 * Returns false otherwise
 	 */
-	public boolean updateIsFacingSouth() {
+	public void updateIsFacingSouth() {
 		if(head.getPosition()[0] == 0) {
-			return false;
+			this.isFacingSouth = false;
 		} else {
 			if(head.getPosition()[0] + 1 == second.getPosition()[0]) {
-				return true;
+				this.isFacingSouth = true;
 			} else {
-				return false;
+				this.isFacingSouth = false;
 			}
 		}
 	}
@@ -176,14 +176,14 @@ public class Snake {
 	 * Returns true if the head is facing east
 	 * Returns false otherwise
 	 */
-	public boolean updateIsFacingEast() {
+	public void updateIsFacingEast() {
 		if(head.getPosition()[1] == 0) {
-			return false;
+			this.isFacingEast = false;
 		} else {
 			if(head.getPosition()[1] - 1 == second.getPosition()[1]) {
-				return true;
+				this.isFacingEast = true;
 			} else {
-				return false;
+				this.isFacingEast = false;
 			}
 		}
 	}
@@ -192,14 +192,14 @@ public class Snake {
 	 * Returns true is the head is facing west
 	 * Returns false otherwise
 	 */
-	public boolean updateIsFacingWest() {
+	public void updateIsFacingWest() {
 		if(head.getPosition()[1] == gameboard.getSquares()[0].length - 1) {
-			return false;
+			this.isFacingWest = false;
 		} else {
 			if(head.getPosition()[1] + 1 == second.getPosition()[1]) {
-				return true;
+				this.isFacingWest = true;
 			} else {
-				return false;
+				this.isFacingWest = false;
 			}
 		}
 	}
