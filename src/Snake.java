@@ -3,6 +3,16 @@ import java.util.Random;
 public class Snake {
 	
 	private int snakeLength;
+	
+	private boolean isLeft;
+	private boolean isRight;
+	private boolean isAbove;
+	private boolean isBelow;
+	private boolean isFacingNorth;
+	private boolean isFacingSouth;
+	private boolean isFacingEast;
+	private boolean isFacingWest;
+	
 	Display gameboard = new Display();
 	Square head = new Square();
 	Square tail = new Square();
@@ -10,20 +20,29 @@ public class Snake {
 	
 	public Snake() {
 		this.snakeLength = 1;
+		this.isLeft = false;
+		this.isAbove = false;
+		this.isBelow = false;
+		this.isRight = false;
+		this.isFacingNorth = false;
+		this.isFacingEast = true;
+		this.isFacingSouth = false;
+		this.isFacingWest = false;
+		
 	}
 	
 	/*
 	 * Returns true if part of the tail is to the left of the head
 	 * Returns false otherwise
 	 */
-	public boolean isLeft() {
+	public void updateIsLeft() {
 		if(head.getPosition()[1] == 0) {
-			return false;
+			this.isLeft = false;
 		} else {
 			if(gameboard.getSquares()[head.getPosition()[0]][head.getPosition()[1] - 1] == 1) {
-				return true;
+				this.isLeft = true;
 			} else {
-				return false;
+				this.isLeft = false;
 			}
 		}
 	}
@@ -32,7 +51,7 @@ public class Snake {
 	 * Returns true if part of the tail is directly to the right of the head
 	 * Returns false otherwise
 	 */
-	public boolean isRight() {
+	public boolean udpateIsRight() {
 		if(head.getPosition()[1] == gameboard.getSquares()[0].length - 1) {
 			return false;
 		} else {
@@ -44,7 +63,7 @@ public class Snake {
 		}
 	}
 	
-	public boolean isAbove() {
+	public boolean updateIsAbove() {
 		if(head.getPosition()[0] == 0) {
 			return false;
 		} else {
@@ -56,7 +75,7 @@ public class Snake {
 		}
 	}
 	
-	public boolean isBelow() {
+	public boolean updateIsBelow() {
 		if(head.getPosition()[0] == gameboard.getSquares().length - 1) {
 			return false;
 		} else {
@@ -123,7 +142,7 @@ public class Snake {
 	 * Returns true if the head is facing north
 	 * Returns false otherwise
 	 */
-	public boolean isFacingNorth() {
+	public boolean updateIsFacingNorth() {
 		
 		if(head.getPosition()[0] == gameboard.getSquares().length - 1) {
 			return false;
@@ -141,7 +160,7 @@ public class Snake {
 	 * Returns true if the head is facing south
 	 * Returns false otherwise
 	 */
-	public boolean isFacingSouth() {
+	public boolean updateIsFacingSouth() {
 		if(head.getPosition()[0] == 0) {
 			return false;
 		} else {
@@ -157,7 +176,7 @@ public class Snake {
 	 * Returns true if the head is facing east
 	 * Returns false otherwise
 	 */
-	public boolean isFacingEast() {
+	public boolean updateIsFacingEast() {
 		if(head.getPosition()[1] == 0) {
 			return false;
 		} else {
@@ -173,7 +192,7 @@ public class Snake {
 	 * Returns true is the head is facing west
 	 * Returns false otherwise
 	 */
-	public boolean isFacingWest() {
+	public boolean updateIsFacingWest() {
 		if(head.getPosition()[1] == gameboard.getSquares()[0].length - 1) {
 			return false;
 		} else {
