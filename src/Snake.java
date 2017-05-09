@@ -278,12 +278,48 @@ public class Snake {
 	public void moveSnake(int path) {
 		path = choosePath();
 		
-		if(path == 0) {
-			//move forward
-		} else if(path == 1) {
-			//turn left
+		if(this.isFacingNorth) {
+			if(path == 0) {
+				//go straight
+				
+			} else if(path == 1) {
+				//turn right
+				
+			} else if(path == 3) {
+				//turn left
+			} 
+			
+		} else if(this.isFacingEast) {
+			if(path == 0) {
+				//turn left
+				
+			} else if(path == 1) {
+				//go straight
+				
+			} else if(path == 2) {
+				//turn right
+			}
+			
+		} else if(this.isFacingSouth){
+			if(path == 1) {
+				//turn left
+				
+			} else if(path == 2) {
+				//go straight
+				
+			} else if(path == 3) {
+				//turn right
+			}
 		} else {
-			//turn right
+			if(path == 0) {
+				//turn right
+				
+			} else if(path == 2) {
+				//turn left
+				
+			} else if(path == 3) {
+				//go straight
+			}
 		}
 		
 	}

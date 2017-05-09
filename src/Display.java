@@ -20,4 +20,8 @@ public class Display {
 	public int[][] getSquares() {
 		return this.squares;
 	}
+	
+	public int[][] updateSquares() {
+		
+	}
 }
