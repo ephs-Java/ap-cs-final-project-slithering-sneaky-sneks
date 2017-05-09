@@ -41,7 +41,7 @@ public class Snake {
 		if(head.getPosition()[1] == 0) {
 			this.isLeft = false;
 		} else {
-			if(gameboard.getSquares()[head.getPosition()[0]][head.getPosition()[1] - 1] == 1) {
+			if(gameboard.getSquares()[head.getPosition()[0]][head.getPosition()[1] - 1] > 0) {
 				this.isLeft = true;
 			} else {
 				this.isLeft = false;
@@ -57,7 +57,7 @@ public class Snake {
 		if(head.getPosition()[1] == gameboard.getSquares()[0].length - 1) {
 			this.isRight = false;
 		} else {
-			if(gameboard.getSquares()[head.getPosition()[0]][head.getPosition()[1] + 1] == 1) {
+			if(gameboard.getSquares()[head.getPosition()[0]][head.getPosition()[1] + 1] > 0) {
 				this.isRight = true;
 			} else {
 				this.isRight = false;
@@ -69,7 +69,7 @@ public class Snake {
 		if(head.getPosition()[0] == 0) {
 			this.isAbove = false;
 		} else {
-			if(gameboard.getSquares()[head.getPosition()[0] + 1][head.getPosition()[1]] == 1) {
+			if(gameboard.getSquares()[head.getPosition()[0] + 1][head.getPosition()[1]] > 0) {
 				this.isAbove = true;
 			} else {
 				this.isAbove = false;
@@ -81,7 +81,7 @@ public class Snake {
 		if(head.getPosition()[0] == gameboard.getSquares().length - 1) {
 			this.isBelow = false;
 		} else {
-			if(gameboard.getSquares()[head.getPosition()[0] - 1][head.getPosition()[1]] == 1) {
+			if(gameboard.getSquares()[head.getPosition()[0] - 1][head.getPosition()[1]] > 0) {
 				this.isBelow = true;
 			} else {
 				this.isBelow = false;
