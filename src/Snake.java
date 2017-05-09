@@ -1,5 +1,3 @@
-//hello
-
 import java.util.Random;
 
 public class Snake {
@@ -34,7 +32,7 @@ public class Snake {
 	}
 	
 	/*
-	 * Returns true if part of the tail is to the left of the head
+	 * Returns true if part of the body is to the left of the head
 	 * Returns false otherwise
 	 */
 	public void updateIsLeft() {
@@ -50,7 +48,7 @@ public class Snake {
 	}
 	
 	/*
-	 * Returns true if part of the tail is directly to the right of the head
+	 * Returns true if part of the body is directly to the right of the head
 	 * Returns false otherwise
 	 */
 	public void udpateIsRight() {
@@ -90,20 +88,181 @@ public class Snake {
 	}
 	
 	/*
-	 * Returns either 0, 1, or 2 to represent the path the snake will take
+	 * Returns either 0, 1, 2, or 3 to represent the path the snake will take
+	 * 0 = north
+	 * 1 = east
+	 * 2 = south
+	 * 3 = west
 	 */
 	public int choosePath() {
 		
 		Random random = new Random();
-		int path = random.nextInt(3);
+		int path = random.nextInt(4);
 		
-		if (this.isFacingNorth){
+		if (this.isFacingNorth) {
 			
-		} else if (this.isFacingEast){
+			if(this.isLeft && this.isAbove) {
+				return 1;
+				
+			} else if(this.isAbove && this.isRight) {
+				return 3;
+				
+			} else if(this.isLeft && this.isRight) {
+				return 0;
+				
+			} else if(this.isLeft) {
+				while(path == 3 || path == 2) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+				
+			} else if(this.isRight) {
+				while(path == 1 || path == 2) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+				
+			} else if(this.isAbove) {
+				while(path == 0 || path == 2) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+				
+			} else {
+				while(path == 2) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+				
+			}
 			
+		} else if (this.isFacingSouth){
+			
+			if(this.isLeft && this.isBelow) {
+				return 1;
+				
+			} else if(this.isBelow && this.isRight) {
+				return 3;
+				
+			} else if(this.isLeft && this.isRight) {
+				return 2;
+				
+			} else if(this.isLeft) {
+				while(path == 0 || path == 3) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+				
+			} else if(this.isRight) {
+				while(path == 0 || path == 1) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+				
+			} else if(this.isBelow) {
+				while(path == 0 || path == 2) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+				
+			} else {
+				while(path == 0) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+				
+			}
+			
+		} else if (this.isFacingEast) {
+			
+			if(this.isAbove && this.isBelow) {
+				return 1;
+				
+			} else if(this.isAbove && this.isRight) {
+				return 2;
+				
+			} else if(this.isRight && this.isBelow) {
+				return 0;
+				
+			} else if(this.isRight) {
+				while(path == 3 || path == 1) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+				
+			} else if(this.isAbove) {
+				while(path == 3 || path == 0) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+				
+			} else if(this.isBelow) {
+				while(path == 3 || path == 2) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+				
+			} else {
+				while(path == 3) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+				
+			}
+			
+		} else {
+			
+			if(this.isAbove && this.isBelow) {
+				return 3;
+				
+			} else if(this.isAbove && this.isLeft) {
+				return 2;
+				
+			} else if(this.isLeft && this.isBelow) {
+				return 0;
+				
+			} else if(this.isLeft) {
+				while(path == 1 || path == 3) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+				
+			} else if(this.isAbove) {
+				while(path == 1 || path == 0) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+				
+			} else if(this.isBelow) {
+				while(path == 1 || path == 2) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+				
+			} else {
+				while(path == 1) {
+					path = random.nextInt(4);
+				}
+				
+				return path;
+			}
 		}
 		
-		return path;
 	}
 	
 	/* 
