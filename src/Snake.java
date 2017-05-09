@@ -12,6 +12,7 @@ public class Snake {
 	private boolean isFacingSouth;
 	private boolean isFacingEast;
 	private boolean isFacingWest;
+	private boolean isComplete;
 	
 	Display gameboard = new Display();
 	Square head = new Square();
@@ -28,6 +29,7 @@ public class Snake {
 		this.isFacingEast = true;
 		this.isFacingSouth = false;
 		this.isFacingWest = false;
+		this.isComplete = false;
 		
 	}
 	
@@ -289,11 +291,37 @@ public class Snake {
 		
 	}
 	
+	
+	/*
+	 * Updates isComplete to reflect whether the snake has completely filled the game board
+	 */
+	public void updateIsComplete() {
+		for(int r = 0; r < gameboard.getSquares().length; r++) {
+			for(int c = 0; c < gameboard.getSquares()[0].length; c++) {
+				if(gameboard.getSquares()[r][c] < 1) {
+					this.isComplete = false;
+				}
+			}
+		}
+		
+		this.isComplete = true;
+	}
+	
 	/* 
 	 * Returns true if the snake is not stuck and can continue to move
+	 * Returns true if the snake is complete
 	 * Returns false otherwise
 	 */
 	public boolean continueOrGameOver() {
+		if(this.isAbove && this.isBelow && this.isLeft && this.isRight) {
+			return false;
+		}
+		
+		if(this.isComplete) {
+			return false;
+		}
+		
+		return true;
 		
 	}
 	
