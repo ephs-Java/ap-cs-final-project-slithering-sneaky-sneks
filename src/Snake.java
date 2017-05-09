@@ -13,11 +13,14 @@ public class Snake {
 	private boolean isFacingEast;
 	private boolean isFacingWest;
 	private boolean isComplete;
+	private boolean isStuck;
 	
 	Display gameboard = new Display();
 	Square head = new Square();
 	Square tail = new Square();
 	Square second = new Square(3, 2);
+	
+	Snake player = new Snake();
 	
 	public Snake() {
 		this.snakeLength = 1;
@@ -30,6 +33,7 @@ public class Snake {
 		this.isFacingSouth = false;
 		this.isFacingWest = false;
 		this.isComplete = false;
+		this.isStuck = false;
 		
 	}
 	
@@ -307,21 +311,39 @@ public class Snake {
 		this.isComplete = true;
 	}
 	
+	/*
+	 * Updates isStuck to reflect whether the snake can move or is stuck
+	 */
+	public void updateIsStuck() {
+		if(this.isAbove && this.isBelow && this.isLeft && this.isRight) {
+			this.isStuck = false;
+		}
+	}
+	
 	/* 
 	 * Returns true if the snake is not stuck and can continue to move
 	 * Returns true if the snake is complete
 	 * Returns false otherwise
 	 */
-	public boolean continueOrGameOver() {
-		if(this.isAbove && this.isBelow && this.isLeft && this.isRight) {
-			return false;
-		}
+	public void continueOrGameOver() {
 		
-		if(this.isComplete) {
-			return false;
+		if(!(this.isComplete && this.isStuck)) {
+			player.udpateIsRight();
+			player.updateIsAbove();
+			player.updateIsBelow();
+			player.updateIsLeft();
+			player.updateIsFacingEast();
+			player.updateIsFacingNorth();
+			player.updateIsFacingSouth();
+			player.updateIsFacingWest();
+			player.updateIsStuck();
+			player.updateIsComplete();
+			
+			player.moveSnake(player.choosePath());
+			
+		} else {
+			//game over message
 		}
-		
-		return true;
 		
 	}
 	
@@ -389,6 +411,14 @@ public class Snake {
 				this.isFacingWest = false;
 			}
 		}
+	}
+	
+	public boolean getIsComplete() {
+		return this.isComplete;
+	}
+	
+	public boolean getIsStuck() {
+		return this.isStuck;
 	}
 	
 }
