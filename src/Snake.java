@@ -20,7 +20,7 @@ public class Snake {
 	Square tail = new Square();
 	Square second = new Square(3, 2);
 	
-	Snake player = new Snake();
+
 	
 	public Snake() {
 		this.snakeLength = 1;
@@ -320,32 +320,7 @@ public class Snake {
 		}
 	}
 	
-	/* 
-	 * Returns true if the snake is not stuck and can continue to move
-	 * Returns true if the snake is complete
-	 * Returns false otherwise
-	 */
-	public void continueOrGameOver() {
-		
-		if(!(this.isComplete && this.isStuck)) {
-			player.udpateIsRight();
-			player.updateIsAbove();
-			player.updateIsBelow();
-			player.updateIsLeft();
-			player.updateIsFacingEast();
-			player.updateIsFacingNorth();
-			player.updateIsFacingSouth();
-			player.updateIsFacingWest();
-			player.updateIsStuck();
-			player.updateIsComplete();
-			
-			player.moveSnake(player.choosePath());
-			
-		} else {
-			//game over message
-		}
-		
-	}
+	
 	
 	/*
 	 * Returns true if the head is facing north
