@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-=======
-//hello dog
-
->>>>>>> origin/master
 import java.util.Random;
-//hello
 
 public class Snake {
 	
@@ -43,6 +37,17 @@ public class Snake {
 		
 	}
 	
+	/* * * * * * * * * * * * * * * * * * *
+	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+	 *									 *
+	 *			UPDATE METHODS			 *
+	 *									 *
+	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+	 * * * * * * * * * * * * * * * * * * */
+
+	/*
+	 * Updates all methods
+	 */
 	public void updateAll(){
 		udpateIsEast();
 		updateIsNorth();
@@ -52,10 +57,76 @@ public class Snake {
 		updateIsFacingNorth();
 		updateIsFacingSouth();
 		updateIsFacingWest();
-		updateIsStuck();
-		updateIsComplete();
+//		updateIsStuck();
+//		updateIsComplete();
 	}
 	
+	
+	/*
+	 * Returns true if the head is facing north
+	 * Returns false otherwise
+	 */
+	public void updateIsFacingNorth() {
+		
+		if(head.getPosition()[0] == gameboard.getSquares().length - 1) {
+			this.isFacingNorth = false;
+		} else {
+			if(head.getPosition()[0] - 1 == second.getPosition()[0]) {
+				this.isFacingNorth = true;
+			} else {
+				this.isFacingNorth = false;
+			}
+		}
+		
+	}
+	
+	/*
+	 * Returns true if the head is facing south
+	 * Returns false otherwise
+	 */
+	public void updateIsFacingSouth() {
+		if(head.getPosition()[0] == 0) {
+			this.isFacingSouth = false;
+		} else {
+			if(head.getPosition()[0] + 1 == second.getPosition()[0]) {
+				this.isFacingSouth = true;
+			} else {
+				this.isFacingSouth = false;
+			}
+		}
+	}
+	
+	/*
+	 * Returns true if the head is facing east
+	 * Returns false otherwise
+	 */
+	public void updateIsFacingEast() {
+		if(head.getPosition()[1] == 0) {
+			this.isFacingEast = false;
+		} else {
+			if(head.getPosition()[1] - 1 == second.getPosition()[1]) {
+				this.isFacingEast = true;
+			} else {
+				this.isFacingEast = false;
+			}
+		}
+	}
+	
+	/*
+	 * Returns true is the head is facing west
+	 * Returns false otherwise
+	 */
+	public void updateIsFacingWest() {
+		if(head.getPosition()[1] == gameboard.getSquares()[0].length - 1) {
+			this.isFacingWest = false;
+		} else {
+			if(head.getPosition()[1] + 1 == second.getPosition()[1]) {
+				this.isFacingWest = true;
+			} else {
+				this.isFacingWest = false;
+			}
+		}
+	}
 	/*
 	 * Returns true if part of the body is to the west of the head object
 	 * Returns false otherwise
@@ -119,6 +190,39 @@ public class Snake {
 			}
 		}
 	}
+	
+	/*
+	 * Updates isComplete to reflect whether the snake has completely filled the game board
+	 */
+	public void updateIsComplete() {
+		for(int r = 0; r < gameboard.getSquares().length; r++) {
+			for(int c = 0; c < gameboard.getSquares()[0].length; c++) {
+				if(gameboard.getSquares()[r][c] < 1) {
+					this.isComplete = false;
+				}
+			}
+		}
+		
+		this.isComplete = true;
+	}
+	
+	/*
+	 * Updates isStuck to reflect whether the snake can move or is stuck
+	 */
+	public void updateIsStuck() {
+		if(this.isNorth && this.isSouth && this.isWest && this.isEast) {
+			this.isStuck = true;
+		}
+	}
+	
+	/* * * * * * * * * * * * * * * * * * *
+	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+	 *									 *
+	 *				LOGIC				 *
+	 *									 *
+	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+	 * * * * * * * * * * * * * * * * * * */
+
 	
 	/*
 	 * Returns either 0, 1, 2, or 3 to represent the path the snake will take
@@ -315,11 +419,19 @@ public class Snake {
 
 			} 
 			
-		} else {
-			return -1;
 		}
+		return -1;
 
 	}
+	
+	/* * * * * * * * * * * * * * * * * * *
+	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+	 *									 *
+	 *			MODIFY SNAKE			 *
+	 *									 *
+	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+	 * * * * * * * * * * * * * * * * * * */
+
 
 	/* 
 	 * Moves each element of the snake depending on the path that is randomly
@@ -382,97 +494,13 @@ public class Snake {
 	}
 	
 	
-	/*
-	 * Updates isComplete to reflect whether the snake has completely filled the game board
-	 */
-	public void updateIsComplete() {
-		for(int r = 0; r < gameboard.getSquares().length; r++) {
-			for(int c = 0; c < gameboard.getSquares()[0].length; c++) {
-				if(gameboard.getSquares()[r][c] < 1) {
-					this.isComplete = false;
-				}
-			}
-		}
-		
-		this.isComplete = true;
-	}
-	
-	/*
-	 * Updates isStuck to reflect whether the snake can move or is stuck
-	 */
-	public void updateIsStuck() {
-		if(this.isNorth && this.isSouth && this.isWest && this.isEast) {
-			this.isStuck = true;
-		}
-	}
-	
-	
-	
-	/*
-	 * Returns true if the head is facing north
-	 * Returns false otherwise
-	 */
-	public void updateIsFacingNorth() {
-		
-		if(head.getPosition()[0] == gameboard.getSquares().length - 1) {
-			this.isFacingNorth = false;
-		} else {
-			if(head.getPosition()[0] - 1 == second.getPosition()[0]) {
-				this.isFacingNorth = true;
-			} else {
-				this.isFacingNorth = false;
-			}
-		}
-		
-	}
-	
-	/*
-	 * Returns true if the head is facing south
-	 * Returns false otherwise
-	 */
-	public void updateIsFacingSouth() {
-		if(head.getPosition()[0] == 0) {
-			this.isFacingSouth = false;
-		} else {
-			if(head.getPosition()[0] + 1 == second.getPosition()[0]) {
-				this.isFacingSouth = true;
-			} else {
-				this.isFacingSouth = false;
-			}
-		}
-	}
-	
-	/*
-	 * Returns true if the head is facing east
-	 * Returns false otherwise
-	 */
-	public void updateIsFacingEast() {
-		if(head.getPosition()[1] == 0) {
-			this.isFacingEast = false;
-		} else {
-			if(head.getPosition()[1] - 1 == second.getPosition()[1]) {
-				this.isFacingEast = true;
-			} else {
-				this.isFacingEast = false;
-			}
-		}
-	}
-	
-	/*
-	 * Returns true is the head is facing west
-	 * Returns false otherwise
-	 */
-	public void updateIsFacingWest() {
-		if(head.getPosition()[1] == gameboard.getSquares()[0].length - 1) {
-			this.isFacingWest = false;
-		} else {
-			if(head.getPosition()[1] + 1 == second.getPosition()[1]) {
-				this.isFacingWest = true;
-			} else {
-				this.isFacingWest = false;
-			}
-		}
-	}
+	/* * * * * * * * * * * * * * * * * * *
+	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+	 *									 *
+	 *			 GET METHODS			 *
+	 *									 *
+	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+	 * * * * * * * * * * * * * * * * * * */
 	
 	public boolean getIsComplete() {
 		return this.isComplete;
