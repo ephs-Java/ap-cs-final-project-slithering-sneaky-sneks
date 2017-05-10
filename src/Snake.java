@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+//hello dog
+
+>>>>>>> origin/master
 import java.util.Random;
 //hello
 
