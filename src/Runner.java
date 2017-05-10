@@ -24,16 +24,7 @@ public class Runner {
 	public void continueOrGameOver() throws InterruptedException {
 		
 		while(!(game.getIsComplete() && game.getIsStuck())) {
-			game.udpateIsRight();
-			game.updateIsAbove();
-			game.updateIsBelow();
-			game.updateIsLeft();
-			game.updateIsFacingEast();
-			game.updateIsFacingNorth();
-			game.updateIsFacingSouth();
-			game.updateIsFacingWest();
-			game.updateIsStuck();
-			game.updateIsComplete();
+			game.updateAll();
 			
 			game.moveSnake(game.choosePath());
 			System.out.println(game.choosePath());

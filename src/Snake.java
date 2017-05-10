@@ -10,10 +10,10 @@ public class Snake {
 	
 	private int snakeLength;
 	
-	private boolean isLeft;
-	private boolean isRight;
-	private boolean isAbove;
-	private boolean isBelow;
+	private boolean isWest;
+	private boolean isEast;
+	private boolean isNorth;
+	private boolean isSouth;
 	private boolean isFacingNorth;
 	private boolean isFacingSouth;
 	private boolean isFacingEast;
@@ -30,10 +30,10 @@ public class Snake {
 	
 	public Snake() {
 		this.snakeLength = 1;
-		this.isLeft = true;
-		this.isAbove = false;
-		this.isBelow = false;
-		this.isRight = false;
+		this.isWest = true;
+		this.isNorth = false;
+		this.isSouth = false;
+		this.isEast = false;
 		this.isFacingNorth = false;
 		this.isFacingEast = true;
 		this.isFacingSouth = false;
@@ -43,240 +43,284 @@ public class Snake {
 		
 	}
 	
+	public void updateAll(){
+		udpateIsEast();
+		updateIsNorth();
+		updateIsSouth();
+		updateIsWest();
+		updateIsFacingEast();
+		updateIsFacingNorth();
+		updateIsFacingSouth();
+		updateIsFacingWest();
+		updateIsStuck();
+		updateIsComplete();
+	}
+	
 	/*
-	 * Returns true if part of the body is to the left of the head
+	 * Returns true if part of the body is to the west of the head object
 	 * Returns false otherwise
 	 */
-	public void updateIsLeft() {
+	public void updateIsWest() {
 		if(head.getPosition()[1] == 0) {
-			this.isLeft = false;
+			this.isWest = false;
 		} else {
 			if(gameboard.getSquares()[head.getPosition()[0]][head.getPosition()[1] - 1] > 0) {
-				this.isLeft = true;
+				this.isWest = true;
 			} else {
-				this.isLeft = false;
+				this.isWest = false;
 			}
 		}
 	}
 	
 	/*
-	 * Returns true if part of the body is directly to the right of the head
+	 * Returns true if part of the body is to the east of the head object
 	 * Returns false otherwise
 	 */
-	public void udpateIsRight() {
+	public void udpateIsEast() {
 		if(head.getPosition()[1] == gameboard.getSquares()[0].length - 1) {
-			this.isRight = false;
+			this.isEast = false;
 		} else {
 			if(gameboard.getSquares()[head.getPosition()[0]][head.getPosition()[1] + 1] > 0) {
-				this.isRight = true;
+				this.isEast = true;
 			} else {
-				this.isRight = false;
+				this.isEast = false;
 			}
 		}
 	}
 	
-	public void updateIsAbove() {
+	/*
+	 * Returns true if part of the body is to the north of the head object
+	 * Returns false otherwise
+	 */
+	public void updateIsNorth() {
 		if(head.getPosition()[0] == 0) {
-			this.isAbove = false;
+			this.isNorth = false;
 		} else {
 			if(gameboard.getSquares()[head.getPosition()[0] + 1][head.getPosition()[1]] > 0) {
-				this.isAbove = true;
+				this.isNorth = true;
 			} else {
-				this.isAbove = false;
+				this.isNorth = false;
 			}
 		}
 	}
 	
-	public void updateIsBelow() {
+	/*
+	 * Returns true if part of the body is to the south of the head object
+	 * Returns false otherwise
+	 */
+	public void updateIsSouth() {
 		if(head.getPosition()[0] == gameboard.getSquares().length - 1) {
-			this.isBelow = false;
+			this.isSouth = false;
 		} else {
 			if(gameboard.getSquares()[head.getPosition()[0] - 1][head.getPosition()[1]] > 0) {
-				this.isBelow = true;
+				this.isSouth = true;
 			} else {
-				this.isBelow = false;
+				this.isSouth = false;
 			}
 		}
 	}
 	
 	/*
 	 * Returns either 0, 1, 2, or 3 to represent the path the snake will take
+	 * Returns -1 if there is 
 	 * 0 = north
 	 * 1 = east
 	 * 2 = south
 	 * 3 = west
 	 */
 	public int choosePath() {
-		
+
 		Random random = new Random();
 		int path = random.nextInt(4);
-		
+
+		// head is facing north
 		if (this.isFacingNorth) {
 			
-			if(this.isLeft && this.isAbove) {
-				return 1;
-				
-			} else if(this.isAbove && this.isRight) {
-				return 3;
-				
-			} else if(this.isLeft && this.isRight) {
-				return 0;
-				
-			} else if(this.isLeft) {
-				while(path == 3 || path == 2) {
-					path = random.nextInt(4);
-				}
-				
-				return path;
-				
-			} else if(this.isRight) {
-				while(path == 1 || path == 2) {
-					path = random.nextInt(4);
-				}
-				
-				return path;
-				
-			} else if(this.isAbove) {
-				while(path == 0 || path == 2) {
-					path = random.nextInt(4);
-				}
-				
-				return path;
-				
-			} else {
+			// can go any direction
+			if (this.isWest && this.isNorth && this.isEast) {
 				while(path == 2) {
 					path = random.nextInt(4);
 				}
-				
 				return path;
 				
-			}
-			
-		} else if (this.isFacingSouth){
-			
-			if(this.isLeft && this.isBelow) {
+				// can only go east
+			} else if (this.isWest && this.isNorth) {
 				return 1;
 				
-			} else if(this.isBelow && this.isRight) {
+				// can only go west
+			} else if (this.isNorth && this.isEast) {
 				return 3;
-				
-			} else if(this.isLeft && this.isRight) {
-				return 2;
-				
-			} else if(this.isLeft) {
-				while(path == 0 || path == 3) {
-					path = random.nextInt(4);
-				}
-				
-				return path;
-				
-			} else if(this.isRight) {
-				while(path == 0 || path == 1) {
-					path = random.nextInt(4);
-				}
-				
-				return path;
-				
-			} else if(this.isBelow) {
-				while(path == 0 || path == 2) {
-					path = random.nextInt(4);
-				}
-				
-				return path;
-				
-			} else {
-				while(path == 0) {
-					path = random.nextInt(4);
-				}
-				
-				return path;
-				
-			}
-			
-		} else if (this.isFacingEast) {
-			
-			if(this.isAbove && this.isBelow) {
-				return 1;
-				
-			} else if(this.isAbove && this.isRight) {
-				return 2;
-				
-			} else if(this.isRight && this.isBelow) {
+
+				// can only go north
+			} else if (this.isWest && this.isEast) {
 				return 0;
-				
-			} else if(this.isRight) {
-				while(path == 3 || path == 1) {
-					path = random.nextInt(4);
-				}
-				
-				return path;
-				
-			} else if(this.isAbove) {
-				while(path == 3 || path == 0) {
-					path = random.nextInt(4);
-				}
-				
-				return path;
-				
-			} else if(this.isBelow) {
+
+				// can only go north or east 
+			} else if (this.isWest) {
 				while(path == 3 || path == 2) {
 					path = random.nextInt(4);
 				}
-				
+
 				return path;
-				
-			} else {
-				while(path == 3) {
-					path = random.nextInt(4);
-				}
-				
-				return path;
-				
-			}
-			
-		} else {
-			
-			if(this.isAbove && this.isBelow) {
-				return 3;
-				
-			} else if(this.isAbove && this.isLeft) {
-				return 2;
-				
-			} else if(this.isLeft && this.isBelow) {
-				return 0;
-				
-			} else if(this.isLeft) {
-				while(path == 1 || path == 3) {
-					path = random.nextInt(4);
-				}
-				
-				return path;
-				
-			} else if(this.isAbove) {
-				while(path == 1 || path == 0) {
-					path = random.nextInt(4);
-				}
-				
-				return path;
-				
-			} else if(this.isBelow) {
+
+				// can only go north or west
+			} else if (this.isEast) {
 				while(path == 1 || path == 2) {
 					path = random.nextInt(4);
 				}
-				
+
+				return path;
+
+				// can only go east or west
+			} else if (this.isNorth) {
+				while(path == 0 || path == 2) {
+					path = random.nextInt(4);
+				}
+
+				return path;
+			}
+
+		// head is facing south
+		} else if (this.isFacingSouth){
+			
+			// can go any direction
+			if (this.isWest && this.isSouth && this.isEast) {
+				while(path == 0) {
+					path = random.nextInt(4);
+				}
 				return path;
 				
-			} else {
+				// can only go east
+			} else if(this.isWest && this.isSouth) {
+				return 1;
+				
+				// can only go west
+			} else if(this.isSouth && this.isEast) {
+				return 3;
+				
+				// can only go south
+			} else if(this.isWest && this.isEast) {
+				return 2;
+				
+				// can only go south or east
+			} else if(this.isWest) {
+				while(path == 0 || path == 3) {
+					path = random.nextInt(4);
+				}
+				return path;
+				
+				// can only go west or south
+			} else if(this.isEast) {
+				while(path == 0 || path == 1) {
+					path = random.nextInt(4);
+				}
+				return path;
+				
+				// can only go east or west
+			} else if(this.isSouth) {
+				while(path == 0 || path == 2) {
+					path = random.nextInt(4);
+				}
+				return path;
+
+			} 
+
+		// head is facing east
+		} else if (this.isFacingEast) {
+			
+			// can go any direction
+			if (this.isWest && this.isSouth && this.isEast) {
+				while(path == 3) {
+					path = random.nextInt(4);
+				}
+				return path;
+				
+				// can only go east
+			} else if(this.isNorth && this.isSouth) {
+				return 1;
+				
+				// can only go south
+			} else if(this.isNorth && this.isEast) {
+				return 2;
+				
+				// can only go north
+			} else if(this.isEast && this.isSouth) {
+				return 0;
+				
+				// can only go north or south
+			} else if(this.isEast) {
+				while(path == 3 || path == 1) {
+					path = random.nextInt(4);
+				}
+				return path;
+				
+				// can only go east or south
+			} else if(this.isNorth) {
+				while(path == 3 || path == 0) {
+					path = random.nextInt(4);
+				}
+				return path;
+
+				// can only go north or east
+			} else if(this.isSouth) {
+				while(path == 3 || path == 2) {
+					path = random.nextInt(4);
+				}
+				return path;
+
+			}
+
+		// head is facing west
+		} else if (this.isFacingWest) {
+
+			// can go any direction
+			if (this.isWest && this.isSouth && this.isEast) {
 				while(path == 1) {
 					path = random.nextInt(4);
 				}
-				
 				return path;
-			}
+				
+				// can only go west
+			} else if(this.isNorth && this.isSouth) {
+				return 3;
+				
+				// can only go south
+			} else if(this.isNorth && this.isWest) {
+				return 2;
+				
+				// can only go north
+			} else if(this.isWest && this.isSouth) {
+				return 0;
+
+				// can only go north or south
+			} else if(this.isWest) {
+				while(path == 1 || path == 3) {
+					path = random.nextInt(4);
+				}
+				return path;
+
+				// can only go west or south
+			} else if(this.isNorth) {
+				while(path == 1 || path == 0) {
+					path = random.nextInt(4);
+				}
+				return path;
+
+				// can only go west or north
+			} else if(this.isSouth) {
+				while(path == 1 || path == 2) {
+					path = random.nextInt(4);
+				}
+				return path;
+
+			} 
+			
+		} else {
+			return -1;
 		}
-		
+
 	}
-	
+
 	/* 
 	 * Moves each element of the snake depending on the path that is randomly
 	 * selected
@@ -357,7 +401,7 @@ public class Snake {
 	 * Updates isStuck to reflect whether the snake can move or is stuck
 	 */
 	public void updateIsStuck() {
-		if(this.isAbove && this.isBelow && this.isLeft && this.isRight) {
+		if(this.isNorth && this.isSouth && this.isWest && this.isEast) {
 			this.isStuck = true;
 		}
 	}
