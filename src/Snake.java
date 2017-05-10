@@ -352,7 +352,7 @@ public class Snake {
 	 */
 	public void updateIsStuck() {
 		if(this.isAbove && this.isBelow && this.isLeft && this.isRight) {
-			this.isStuck = false;
+			this.isStuck = true;
 		}
 	}
 	
