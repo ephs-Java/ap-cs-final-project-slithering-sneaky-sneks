@@ -18,13 +18,13 @@ public class Snake {
 	Display gameboard = new Display();
 	Square head = new Square();
 	Square tail = new Square();
-	Square second = new Square(3, 2);
+	Square second = new Square(2, 1);
 	
 
 	
 	public Snake() {
 		this.snakeLength = 1;
-		this.isLeft = false;
+		this.isLeft = true;
 		this.isAbove = false;
 		this.isBelow = false;
 		this.isRight = false;

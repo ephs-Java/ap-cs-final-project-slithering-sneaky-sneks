@@ -10,15 +10,17 @@ public class Runner {
 		 
 	}
 	
+	
+	
+	public Runner() {
+		
+	}
+	
 	/* 
 	 * Returns true if the snake is not stuck and can continue to move
 	 * Returns true if the snake is complete
 	 * Returns false otherwise
 	 */
-	
-	public Runner() {
-		
-	}
 	public void continueOrGameOver() throws InterruptedException {
 		
 		while(!(game.getIsComplete() && game.getIsStuck())) {
@@ -34,13 +36,14 @@ public class Runner {
 			game.updateIsComplete();
 			
 			game.moveSnake(game.choosePath());
+			System.out.println(game.choosePath());
 			
 			//Pause for one second, then make next move
 			Thread.sleep(1000);
 			
 		} 
 		
-		//game over meessage
+		//game over message
 		
 	}
 	
