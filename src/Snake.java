@@ -20,21 +20,16 @@ public class Snake {
 	Square tail = new Square();
 	Square second = new Square(2, 1);
 	
-
+	/* * * * * * * * * * * * * * * * * * *
+	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+	 *									 *
+	 *			Constructor(s)			 *
+	 *									 *
+	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+	 * * * * * * * * * * * * * * * * * * */
 	
 	public Snake() {
-		this.snakeLength = 1;
-		this.isWest = true;
-		this.isNorth = false;
-		this.isSouth = false;
-		this.isEast = false;
-		this.isFacingNorth = false;
-		this.isFacingEast = true;
-		this.isFacingSouth = false;
-		this.isFacingWest = false;
-		this.isComplete = false;
-		this.isStuck = false;
-		
+		initialize();
 	}
 	
 	/* * * * * * * * * * * * * * * * * * *
@@ -61,6 +56,24 @@ public class Snake {
 //		updateIsComplete();
 	}
 	
+	/*
+	 * Starts the gameBoard over again
+	 */
+	void initialize(){
+		
+		this.snakeLength = 1;
+		this.isWest = true;
+		this.isNorth = false;
+		this.isSouth = false;
+		this.isEast = false;
+		this.isFacingNorth = false;
+		this.isFacingEast = true;
+		this.isFacingSouth = false;
+		this.isFacingWest = false;
+		this.isComplete = false;
+		this.isStuck = false;
+		
+	}
 	
 	/*
 	 * Returns true if the head is facing north
@@ -422,6 +435,30 @@ public class Snake {
 		}
 		return -1;
 
+	}
+	
+	
+	/* 
+	 * Returns true if the snake is not stuck and can continue to move
+	 * Returns true if the snake is complete
+	 * Returns false otherwise
+	 */
+	public void continueOrGameOver() throws InterruptedException {
+		
+		while(!(getIsComplete() && getIsStuck())) {
+			
+			updateAll();
+			
+			moveSnake(choosePath());
+			System.out.println(choosePath());
+			
+			//Pause for one second, then make next move
+			Thread.sleep(1000);
+			
+		} 
+		
+		//game over message
+		
 	}
 	
 	/* * * * * * * * * * * * * * * * * * *
