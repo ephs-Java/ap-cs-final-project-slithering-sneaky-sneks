@@ -726,8 +726,6 @@ public class Snake {
 		int colHolder = col;
 		int holder = this.gameboard[row][col];
 		
-		System.out.println(this.spaceHolderRow + ", " + this.spaceHolderCol);
-		
 		this.gameboard[row][col] = this.spaceHolder;
 		this.gameboard[this.spaceHolderRow][this.spaceHolderCol] = holder;
 		
