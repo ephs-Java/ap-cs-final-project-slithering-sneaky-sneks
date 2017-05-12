@@ -633,6 +633,7 @@ public class Snake {
 		
 		int headRow = 0;
 		int headCol = 0;
+		int swapCounter = 0;
 		
 		for(int row = 0; row < this.gameboard.length; row++) {
 			for(int col = 0; col < this.gameboard[0].length; col++) {
@@ -703,10 +704,15 @@ public class Snake {
 			for(int r = 0; r < this.gameboard.length; r++) {
 				for(int c = 0; c < this.gameboard[0].length; c++) {
 					if(this.gameboard[r][c] == i) {
-						swap(r, c);
+						if(swapCounter < 2) {
+							swap(r, c);
+							swapCounter++;
+						}
+						
 					}
 				}
 			}
+			swapCounter = 0;
 		}
 		
 	}
@@ -720,8 +726,11 @@ public class Snake {
 		int colHolder = col;
 		int holder = this.gameboard[row][col];
 		
+		System.out.println(this.spaceHolderRow + ", " + this.spaceHolderCol);
+		
 		this.gameboard[row][col] = this.spaceHolder;
-		this.spaceHolder = holder;
+		this.gameboard[this.spaceHolderRow][this.spaceHolderCol] = holder;
+		
 		
 		row = this.spaceHolderRow;
 		this.spaceHolderRow = rowHolder;
