@@ -700,7 +700,7 @@ public class Snake {
 			for(int r = 0; r < this.gameboard.length; r++) {
 				for(int c = 0; c < this.gameboard[0].length; c++) {
 					if(this.gameboard[r][c] == i) {
-						swap(headRow, headCol);
+						swap(r, c);
 					}
 				}
 			}
@@ -708,6 +708,10 @@ public class Snake {
 		
 	}
 	
+	/*
+	 * Swaps the value and index of the snake square with the 
+	 * value and index of the spaceHolder
+	 */
 	public void swap(int row, int col) {
 		int rowHolder = row;
 		int colHolder = col;
