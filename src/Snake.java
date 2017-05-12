@@ -243,7 +243,7 @@ public class Snake {
 		
 		
 		if(headCol == 0) {
-			this.isWest = false;
+			this.isWest = true;
 		} else {
 			if(gameboard[headRow][headCol - 1] > 0) {
 				this.isWest = true;
@@ -274,7 +274,7 @@ public class Snake {
 		}
 		
 		if(headCol == gameboard[0].length - 1) {
-			this.isEast = false;
+			this.isEast = true;
 		} else {
 			if(gameboard[headRow][headCol + 1] > 0) {
 				this.isEast = true;
@@ -304,7 +304,7 @@ public class Snake {
 		}
 		
 		if(headRow == 0) {
-			this.isNorth = false;
+			this.isNorth = true;
 		} else {
 			if(gameboard[headRow + 1][headCol] > 0) {
 				this.isNorth = true;
@@ -334,7 +334,7 @@ public class Snake {
 		}
 		
 		if(headRow == gameboard.length - 1) {
-			this.isSouth = false;
+			this.isSouth = true;
 		} else {
 			if(gameboard[headRow + 1][headCol] > 0) {
 				this.isSouth = true;
