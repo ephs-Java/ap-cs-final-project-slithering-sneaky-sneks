@@ -601,7 +601,8 @@ public class Snake {
 			}
 			System.out.println();
 			
-			moveSnake(choosePath());
+			moveSnake();
+			
 			
 			//Pause for one second, then make next move
 			Thread.sleep(1000);
@@ -625,8 +626,10 @@ public class Snake {
 	 * Moves each element of the snake depending on the path that is randomly
 	 * selected
 	 */
-	public void moveSnake(int path) {
-		path = choosePath();
+	public void moveSnake() {
+		int path = choosePath();
+		System.out.println(path);
+		System.out.println();
 		
 		int headRow = 0;
 		int headCol = 0;
