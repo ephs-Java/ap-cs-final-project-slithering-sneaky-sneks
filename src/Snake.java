@@ -396,14 +396,12 @@ public class Snake {
 		if (this.isFacingNorth) {
 			
 			// can go any direction
-			if (!(this.isWest && this.isNorth && this.isEast)) {
 				while(path == 2) {
 					path = random.nextInt(4);
 				}
-				return path;
 				
 				// can only go east
-			} else if (this.isWest && this.isNorth) {
+			if (this.isWest && this.isNorth) {
 				return 1;
 				
 				// can only go west
@@ -438,19 +436,21 @@ public class Snake {
 
 				return path;
 			}
+			
+			return path;
 
 		// head is facing south
 		} else if (this.isFacingSouth){
 			
 			// can go any direction
-			if (!(this.isWest && this.isSouth && this.isEast)) {
+		
 				while(path == 0) {
 					path = random.nextInt(4);
 				}
-				return path;
+				
 				
 				// can only go east
-			} else if(this.isWest && this.isSouth) {
+			if(this.isWest && this.isSouth) {
 				return 1;
 				
 				// can only go west
@@ -483,19 +483,21 @@ public class Snake {
 				return path;
 
 			} 
+			
+			return path;
 
 		// head is facing east
 		} else if (this.isFacingEast) {
 			
 			// can go any direction
-			if (!(this.isNorth && this.isSouth && this.isEast)) {
+			
 				while(path == 3) {
 					path = random.nextInt(4);
 				}
-				return path;
+				
 				
 				// can only go east
-			} else if(this.isNorth && this.isSouth) {
+			if(this.isNorth && this.isSouth) {
 				return 1;
 				
 				// can only go south
@@ -528,19 +530,21 @@ public class Snake {
 				return path;
 
 			}
+			
+			return path;
 
 		// head is facing west
 		} else if (this.isFacingWest) {
 
 			// can go any direction
-			if (!(this.isWest && this.isSouth && this.isNorth)) {
+			
 				while(path == 1) {
 					path = random.nextInt(4);
 				}
-				return path;
+				
 				
 				// can only go west
-			} else if(this.isNorth && this.isSouth) {
+			if(this.isNorth && this.isSouth) {
 				return 3;
 				
 				// can only go south
@@ -573,6 +577,8 @@ public class Snake {
 				return path;
 
 			} 
+			
+			return path;
 			
 		}
 		return -1;
