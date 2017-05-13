@@ -611,12 +611,12 @@ public class Snake {
 			for(int r = 0; r < this.gameboard.length; r++) {
 				for(int c = 0; c < this.gameboard[0].length; c++) {
 					if(this.gameboard[r][c] == 1) {
-						System.out.print(2 + " ");
+						System.out.print("@" + " ");
 					}
 					else if(this.gameboard[r][c] > 0) {
-						System.out.print(1 + " ");
+						System.out.print("+" + " ");
 					} else {
-						System.out.print(0 + " ");
+						System.out.print("." + " ");
 					}
 				}
 				
