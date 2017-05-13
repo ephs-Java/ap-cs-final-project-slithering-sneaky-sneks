@@ -18,6 +18,7 @@ public class Snake {
 	private int spaceHolder;
 	private int spaceHolderRow;
 	private int spaceHolderCol;
+	private int numberOfMoves;
 	
 	/* * * * * * * * * * * * * * * * * * *
 	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
@@ -60,7 +61,13 @@ public class Snake {
 	 */
 	void initialize(){
 		
-		this.snakeLength = 13;
+		for(int r = 0; r < this.gameboard.length; r++) {
+			for(int c = 0; c < this.gameboard[0].length; c++) {
+				this.gameboard[r][c] = 0;
+			}
+		}
+		
+		this.snakeLength = 2;
 		this.isWest = true;
 		this.isNorth = false;
 		this.isSouth = false;
@@ -73,18 +80,8 @@ public class Snake {
 		this.isStuck = false;
 		this.gameboard[5][5] = 1;
 		this.gameboard[5][4] = 2;
-		this.gameboard[5][3] = 3;
-		this.gameboard[6][3] = 4;
-		this.gameboard[7][3] = 5;
-		this.gameboard[8][3] = 6;
-		this.gameboard[9][3] = 7;
-		this.gameboard[10][3] = 8;
-		this.gameboard[11][3] = 9;
-		this.gameboard[12][3] = 10;
-		this.gameboard[12][2] = 11;
-		this.gameboard[12][1] = 12;
-		this.gameboard[12][0] = 13;
 		this.spaceHolder = 0;
+		this.numberOfMoves = 0;
 		
 	}
 	
@@ -606,6 +603,10 @@ public class Snake {
 			moveSnake();
 			updateAll();
 			
+			if(this.numberOfMoves % 10 == 0) {
+				addToSnake();
+			}
+			
 			//prints the array
 			for(int r = 0; r < this.gameboard.length; r++) {
 				for(int c = 0; c < this.gameboard[0].length; c++) {
@@ -618,8 +619,11 @@ public class Snake {
 						System.out.print(0 + " ");
 					}
 				}
+				
+				
 				System.out.println();
 			}
+			System.out.print("\t\t\t Snake length: " + this.snakeLength);
 			System.out.println();
 			
 			//Pause for one second, then make next move
@@ -627,8 +631,15 @@ public class Snake {
 			
 		} 
 		
-		System.out.println();
-		System.out.println("GAME OVER");
+		//System.out.println();
+		//System.out.println("GAME OVER");
+		//System.out.println("Final score: " + this.snakeLength);
+		
+		/*
+		 * Resets the game so it plays continuously 
+		 */
+		initialize();
+		continueOrGameOver();
 		
 	}
 	
@@ -732,6 +743,8 @@ public class Snake {
 			swapCounter = 0;
 		}
 		
+		this.numberOfMoves++;
+		
 	}
 	
 	/*
@@ -757,7 +770,44 @@ public class Snake {
 	}
 	
 	public void addToSnake() {
-		this.snakeLength++;
+		
+		int tailRow = 0;
+		int tailCol = 0;
+		
+		for(int r = 0; r < this.gameboard.length; r++) {
+			for(int c = 0; c < this.gameboard[0].length; c++) {
+				if(this.gameboard[r][c] == this.snakeLength) {
+					tailRow = r;
+					tailCol = c;
+				}
+			}
+		}
+		
+		//Tries to add the new piece to the south
+		if(tailRow != this.gameboard[0].length - 1 && this.gameboard[tailRow + 1][tailCol] < 1) {
+			this.gameboard[tailRow + 1][tailCol] = this.snakeLength + 1;
+			this.snakeLength++;
+			
+		//Tries to add the new piece to the west	
+		} else if(tailCol != 0 && this.gameboard[tailRow][tailCol - 1] < 1) {
+			this.gameboard[tailRow][tailCol - 1] = this.snakeLength + 1;
+			this.snakeLength++;
+			
+		//Tries to add the new piece to the north	
+		} else if(tailRow != 0 && this.gameboard[tailRow - 1][tailCol] < 1) {
+			this.gameboard[tailRow - 1][tailCol] = this.snakeLength + 1;
+			this.snakeLength++;
+			
+		//Tries to add the new piece to the east	
+		} else if(tailCol != this.gameboard[0].length - 1 && this.gameboard[tailRow][tailCol + 1] < 1) {
+			this.gameboard[tailRow][tailCol + 1] = this.snakeLength + 1;
+			this.snakeLength++;
+
+		} 
+		
+		
+		
+		
 		
 		//turn the square behind the end of the tail to "1"
 		
