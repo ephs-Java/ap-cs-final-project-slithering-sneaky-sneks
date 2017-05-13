@@ -4,7 +4,7 @@ public class Snake {
 	
 	private int snakeLength;
 	
-	int[][] gameboard = new int[10][10];
+	int[][] gameboard = new int[15][15];
 	private boolean isWest;
 	private boolean isEast;
 	private boolean isNorth;
@@ -71,12 +71,12 @@ public class Snake {
 		this.isFacingWest = false;
 		this.isComplete = false;
 		this.isStuck = false;
-		this.gameboard[2][2] = 1;
-		this.gameboard[2][1] = 2;
-		this.gameboard[2][0] = 3;
-		this.gameboard[3][0] = 4;
-		this.gameboard[4][0] = 5;
-		this.gameboard[5][0] = 6;
+		this.gameboard[5][5] = 1;
+		this.gameboard[5][4] = 2;
+		this.gameboard[5][3] = 3;
+		this.gameboard[6][3] = 4;
+		this.gameboard[7][3] = 5;
+		this.gameboard[8][3] = 6;
 		this.spaceHolder = 0;
 		
 	}
@@ -589,6 +589,8 @@ public class Snake {
 		
 		while(!(getIsComplete() && getIsStuck())) {
 			
+			//choosePath is embedded in moveSnake
+			moveSnake();
 			updateAll();
 			
 			System.out.println("Is facing north: " + this.isFacingNorth);
@@ -610,11 +612,12 @@ public class Snake {
 			}
 			System.out.println();
 			
-			moveSnake();
 			
+			System.out.println();
+			System.out.println();
 			
 			//Pause for one second, then make next move
-			Thread.sleep(1000);
+			Thread.sleep(500);
 			
 		} 
 		
@@ -637,7 +640,7 @@ public class Snake {
 	 */
 	public void moveSnake() {
 		int path = choosePath();
-		System.out.println(path);
+		System.out.println("Path: " + path);
 		
 		
 		int headRow = 0;
