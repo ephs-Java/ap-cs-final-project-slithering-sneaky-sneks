@@ -60,7 +60,7 @@ public class Snake {
 	 */
 	void initialize(){
 		
-		this.snakeLength = 2;
+		this.snakeLength = 3;
 		this.isWest = true;
 		this.isNorth = false;
 		this.isSouth = false;
@@ -73,6 +73,7 @@ public class Snake {
 		this.isStuck = false;
 		this.gameboard[2][2] = 1;
 		this.gameboard[2][1] = 2;
+		this.gameboard[2][0] = 3;
 		this.spaceHolder = 0;
 		
 	}
@@ -105,7 +106,7 @@ public class Snake {
 		if(headRow == gameboard.length - 1) {
 			this.isFacingNorth = false;
 		} else {
-			if(headRow - 1 == secondRow) {
+			if(headRow + 1 == secondRow) {
 				this.isFacingNorth = true;
 			} else {
 				this.isFacingNorth = false;
@@ -142,7 +143,7 @@ public class Snake {
 		if(headRow == 0) {
 			this.isFacingSouth = false;
 		} else {
-			if(headRow + 1 == secondRow) {
+			if(headRow - 1 == secondRow) {
 				this.isFacingSouth = true;
 			} else {
 				this.isFacingSouth = false;
@@ -238,9 +239,6 @@ public class Snake {
 				}
 			}
 		}
-		
-		
-		
 		
 		if(headCol == 0) {
 			this.isWest = true;
@@ -590,7 +588,15 @@ public class Snake {
 			
 			updateAll();
 			
-			
+			System.out.println("Is facing north: " + this.isFacingNorth);
+			System.out.println("Is facing east: " + this.isFacingEast);
+			System.out.println("Is facing south: " + this.isFacingSouth);
+			System.out.println("Is facing west: " + this.isFacingWest);
+			System.out.println("Is north: " + this.isNorth);
+			System.out.println("Is east: " + this.isEast);
+			System.out.println("Is south: " + this.isSouth);
+			System.out.println("Is west: " + this.isWest);
+			System.out.println();
 			
 			//prints the array
 			for(int r = 0; r < this.gameboard.length; r++) {
@@ -629,7 +635,7 @@ public class Snake {
 	public void moveSnake() {
 		int path = choosePath();
 		System.out.println(path);
-		System.out.println();
+		
 		
 		int headRow = 0;
 		int headCol = 0;
