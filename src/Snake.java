@@ -232,7 +232,8 @@ public class Snake {
 		}
 	}
 	/*
-	 * Returns true if part of the body is to the west of the head object
+	 * Returns true if part of the body is to the west of the head
+	 * or if the head is in the far west column
 	 * Returns false otherwise
 	 */
 	public void updateIsWest() {
@@ -263,7 +264,8 @@ public class Snake {
 	}
 	
 	/*
-	 * Returns true if part of the body is to the east of the head object
+	 * Returns true if part of the body is to the east of the head
+	 * or if the head is in the far east column
 	 * Returns false otherwise
 	 */
 	public void udpateIsEast() {
@@ -293,7 +295,8 @@ public class Snake {
 	}
 	
 	/*
-	 * Returns true if part of the body is to the north of the head object
+	 * Returns true if part of the body is to the north of the head
+	 * or if the head is in the far north row
 	 * Returns false otherwise
 	 */
 	public void updateIsNorth() {
@@ -324,6 +327,7 @@ public class Snake {
 	
 	/*
 	 * Returns true if part of the body is to the south of the head object
+	 * or if the head is in the far south row
 	 * Returns false otherwise
 	 */
 	public void updateIsSouth() {
@@ -593,9 +597,9 @@ public class Snake {
 	
 	
 	/* 
-	 * Returns true if the snake is not stuck and can continue to move
-	 * Returns true if the snake is complete
-	 * Returns false otherwise
+	 * Continues the game if the snake is not stuck and can continue to move
+	 * Ends the game and prints you win message if the snake is complete
+	 * Ends the game and prints game over message if the snake is stuck
 	 */
 	public void continueOrGameOver() throws InterruptedException {
 		
@@ -605,10 +609,12 @@ public class Snake {
 			moveSnake();
 			updateAll();
 			
+			//adds to the snake every ten moves
 			if(this.numberOfMoves % 10 == 0) {
 				addToSnake();
 			}
 			
+			//updates longestSnakeLength
 			if(this.snakeLength > this.longestSnakeLength) {
 				this.longestSnakeLength = this.snakeLength;
 			}
@@ -629,6 +635,8 @@ public class Snake {
 				
 				System.out.println();
 			}
+			
+			//prints out current and longest snake length
 			System.out.println("\t\t\t Snake length: " + this.snakeLength);
 			System.out.println("\t\t\t Longest Snake length: " + this.longestSnakeLength);
 			System.out.println();
@@ -670,6 +678,7 @@ public class Snake {
 		int headCol = 0;
 		int swapCounter = 0;
 		
+		//Finds the row and column of the head
 		for(int row = 0; row < this.gameboard.length; row++) {
 			for(int col = 0; col < this.gameboard[0].length; col++) {
 				if(this.gameboard[row][col] == 1) {
@@ -776,6 +785,11 @@ public class Snake {
 		
 	}
 	
+	/*
+	 * turns the square to the south of the tail to (1 + snakeLength) and adds to snake length
+	 * If the square to the south of the snake is filled it tries the west, then the north, then the east
+	 * If there is no open space to add to the tail, the snake simply continuous without adding to the tail
+	 */
 	public void addToSnake() {
 		
 		int tailRow = 0;
@@ -811,12 +825,6 @@ public class Snake {
 			this.snakeLength++;
 
 		} 
-		
-		
-		
-		
-		
-		//turn the square behind the end of the tail to "1"
 		
 	}
 	
