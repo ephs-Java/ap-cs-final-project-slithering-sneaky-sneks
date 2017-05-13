@@ -4,7 +4,7 @@ public class Snake {
 	
 	private int snakeLength;
 	
-	int[][] gameboard = new int[5][5];
+	int[][] gameboard = new int[10][10];
 	private boolean isWest;
 	private boolean isEast;
 	private boolean isNorth;
@@ -60,7 +60,7 @@ public class Snake {
 	 */
 	void initialize(){
 		
-		this.snakeLength = 3;
+		this.snakeLength = 6;
 		this.isWest = true;
 		this.isNorth = false;
 		this.isSouth = false;
@@ -74,6 +74,9 @@ public class Snake {
 		this.gameboard[2][2] = 1;
 		this.gameboard[2][1] = 2;
 		this.gameboard[2][0] = 3;
+		this.gameboard[3][0] = 4;
+		this.gameboard[4][0] = 5;
+		this.gameboard[5][0] = 6;
 		this.spaceHolder = 0;
 		
 	}
