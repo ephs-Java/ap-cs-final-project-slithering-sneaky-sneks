@@ -60,7 +60,7 @@ public class Snake {
 	 */
 	void initialize(){
 		
-		this.snakeLength = 6;
+		this.snakeLength = 13;
 		this.isWest = true;
 		this.isNorth = false;
 		this.isSouth = false;
@@ -77,6 +77,13 @@ public class Snake {
 		this.gameboard[6][3] = 4;
 		this.gameboard[7][3] = 5;
 		this.gameboard[8][3] = 6;
+		this.gameboard[9][3] = 7;
+		this.gameboard[10][3] = 8;
+		this.gameboard[11][3] = 9;
+		this.gameboard[12][3] = 10;
+		this.gameboard[12][2] = 11;
+		this.gameboard[12][1] = 12;
+		this.gameboard[12][0] = 13;
 		this.spaceHolder = 0;
 		
 	}
@@ -599,27 +606,20 @@ public class Snake {
 			moveSnake();
 			updateAll();
 			
-			System.out.println("Is facing north: " + this.isFacingNorth);
-			System.out.println("Is facing east: " + this.isFacingEast);
-			System.out.println("Is facing south: " + this.isFacingSouth);
-			System.out.println("Is facing west: " + this.isFacingWest);
-			System.out.println("Is north: " + this.isNorth);
-			System.out.println("Is east: " + this.isEast);
-			System.out.println("Is south: " + this.isSouth);
-			System.out.println("Is west: " + this.isWest);
-			System.out.println();
-			
 			//prints the array
 			for(int r = 0; r < this.gameboard.length; r++) {
 				for(int c = 0; c < this.gameboard[0].length; c++) {
-					System.out.print(this.gameboard[r][c] + " ");
+					if(this.gameboard[r][c] == 1) {
+						System.out.print(2 + " ");
+					}
+					else if(this.gameboard[r][c] > 0) {
+						System.out.print(1 + " ");
+					} else {
+						System.out.print(0 + " ");
+					}
 				}
 				System.out.println();
 			}
-			System.out.println();
-			
-			
-			System.out.println();
 			System.out.println();
 			
 			//Pause for one second, then make next move
@@ -627,7 +627,8 @@ public class Snake {
 			
 		} 
 		
-		//game over message
+		System.out.println();
+		System.out.println("GAME OVER");
 		
 	}
 	
@@ -646,8 +647,6 @@ public class Snake {
 	 */
 	public void moveSnake() {
 		int path = choosePath();
-		System.out.println("Path: " + path);
-		
 		
 		int headRow = 0;
 		int headCol = 0;
