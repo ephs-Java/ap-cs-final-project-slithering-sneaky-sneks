@@ -306,7 +306,7 @@ public class Snake {
 		if(headRow == 0) {
 			this.isNorth = true;
 		} else {
-			if(gameboard[headRow + 1][headCol] > 0) {
+			if(gameboard[headRow - 1][headCol] > 0) {
 				this.isNorth = true;
 			} else {
 				this.isNorth = false;
