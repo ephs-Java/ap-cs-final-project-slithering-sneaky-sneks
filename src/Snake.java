@@ -4,7 +4,7 @@ public class Snake {
 	
 	private int snakeLength;
 	
-	int[][] gameboard = new int[15][15];
+	int[][] gameboard = new int[25][25];
 	private boolean isWest;
 	private boolean isEast;
 	private boolean isNorth;
@@ -19,6 +19,7 @@ public class Snake {
 	private int spaceHolderRow;
 	private int spaceHolderCol;
 	private int numberOfMoves;
+	private int longestSnakeLength;
 	
 	/* * * * * * * * * * * * * * * * * * *
 	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
@@ -30,6 +31,7 @@ public class Snake {
 	
 	public Snake() {
 		initialize();
+		this.longestSnakeLength = 2;
 	}
 	
 	/* * * * * * * * * * * * * * * * * * *
@@ -607,6 +609,10 @@ public class Snake {
 				addToSnake();
 			}
 			
+			if(this.snakeLength > this.longestSnakeLength) {
+				this.longestSnakeLength = this.snakeLength;
+			}
+			
 			//prints the array
 			for(int r = 0; r < this.gameboard.length; r++) {
 				for(int c = 0; c < this.gameboard[0].length; c++) {
@@ -623,11 +629,12 @@ public class Snake {
 				
 				System.out.println();
 			}
-			System.out.print("\t\t\t Snake length: " + this.snakeLength);
+			System.out.println("\t\t\t Snake length: " + this.snakeLength);
+			System.out.println("\t\t\t Longest Snake length: " + this.longestSnakeLength);
 			System.out.println();
 			
 			//Pause for one second, then make next move
-			Thread.sleep(500);
+			Thread.sleep(200);
 			
 		} 
 		
