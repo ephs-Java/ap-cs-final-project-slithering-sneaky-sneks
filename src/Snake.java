@@ -1,10 +1,19 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class Snake {
 	
+	/* * * * * * * * * * * * * * * * * * *
+	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+	 *									 *
+	 *		  Instance Variables		 *
+	 *									 *
+	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+	 * * * * * * * * * * * * * * * * * * */
+	
 	private int snakeLength;
 	
-	int[][] gameboard = new int[5][5];
+	private int[][] gameboard = new int[5][5];
 	private boolean isWest;
 	private boolean isEast;
 	private boolean isNorth;
@@ -25,7 +34,10 @@ public class Snake {
 	 * * * * * * * * * * * * * * * * * * */
 	
 	public Snake() {
-		initialize();
+		reset();
+		printGame();
+		moveSnake(choosePath());
+		printGame();
 	}
 	
 	/* * * * * * * * * * * * * * * * * * *
@@ -35,27 +47,11 @@ public class Snake {
 	 *									 *
 	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
 	 * * * * * * * * * * * * * * * * * * */
-
-	/*
-	 * Updates all methods
-	 */
-	public void updateAll(){
-		udpateIsEast();
-		updateIsNorth();
-		updateIsSouth();
-		updateIsWest();
-		updateIsFacingEast();
-		updateIsFacingNorth();
-		updateIsFacingSouth();
-		updateIsFacingWest();
-//		updateIsStuck();
-//		updateIsComplete();
-	}
 	
 	/*
 	 * Starts the gameBoard over again
 	 */
-	void initialize(){
+	void reset(){
 		
 		this.snakeLength = 1;
 		this.isWest = true;
@@ -71,6 +67,22 @@ public class Snake {
 		this.gameboard[2][2] = 1;
 		this.gameboard[2][1] = 2;
 		
+	}
+
+	/*
+	 * Updates all methods
+	 */
+	public void updateAll(){
+		udpateIsEast();
+		updateIsNorth();
+		updateIsSouth();
+		updateIsWest();
+		updateIsFacingEast();
+		updateIsFacingNorth();
+		updateIsFacingSouth();
+		updateIsFacingWest();
+//		updateIsStuck();
+//		updateIsComplete();
 	}
 	
 	/*
@@ -563,9 +575,7 @@ public class Snake {
 	
 	
 	/* 
-	 * Returns true if the snake is not stuck and can continue to move
-	 * Returns true if the snake is complete
-	 * Returns false otherwise
+	 * 
 	 */
 	public void continueOrGameOver() throws InterruptedException {
 		
@@ -599,50 +609,22 @@ public class Snake {
 	 * selected
 	 */
 	public void moveSnake(int path) {
-		path = choosePath();
 		
-		if(this.isFacingNorth) {
-			if(path == 0) {
-				//go straight
-				
-			} else if(path == 1) {
-				//turn right
-				
-			} else if(path == 3) {
-				//turn left
-			} 
+		setPos(path);
+		
+	}
+	
+	private void setPos(int path){
+		if (path == 0){
 			
-		} else if(this.isFacingEast) {
-			if(path == 0) {
-				//turn left
-				
-			} else if(path == 1) {
-				//go straight
-				
-			} else if(path == 2) {
-				//turn right
-			}
+		} else if (path == 1){
 			
-		} else if(this.isFacingSouth){
-			if(path == 1) {
-				//turn left
-				
-			} else if(path == 2) {
-				//go straight
-				
-			} else if(path == 3) {
-				//turn right
-			}
+		} else if (path == 2){
+			
+		} else if (path == 3){
+			
 		} else {
-			if(path == 0) {
-				//turn right
-				
-			} else if(path == 2) {
-				//turn left
-				
-			} else if(path == 3) {
-				//go straight
-			}
+			gameOver();
 		}
 		
 	}
@@ -671,4 +653,40 @@ public class Snake {
 		return this.isStuck;
 	}
 	
+	/* * * * * * * * * * * * * * * * * * *
+	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+	 *									 *
+	 *			 	OTHER				 *
+	 *									 *
+	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+	 * * * * * * * * * * * * * * * * * * */
+	
+	public void printGame(){
+		
+		for(int r = 0; r < gameboard.length; r++){
+			for(int c = 0; c < gameboard[r].length; c++){
+				System.out.print("[ " + gameboard[r][c] + " ]");
+			}
+			System.out.println();
+		}
+		
+		System.out.println();
+		System.out.println();
+		
+	}
+	
+	public void gameOver(){
+		
+		Scanner input = new Scanner(System.in);
+		
+		System.out.println("game over");
+		
+		System.exit(0);
+	}
+	
 }
+
+
+
+
+
