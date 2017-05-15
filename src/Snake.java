@@ -24,6 +24,11 @@ public class Snake {
 	private boolean isFacingWest;
 	private boolean isComplete;
 	private boolean isStuck;
+	private int spaceHolder;
+	private int spaceHolderRow;
+	private int spaceHolderCol;
+	private int numberOfMoves;
+	private int longestSnakeLength;
 	
 	/* * * * * * * * * * * * * * * * * * *
 	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
@@ -34,10 +39,9 @@ public class Snake {
 	 * * * * * * * * * * * * * * * * * * */
 	
 	public Snake() {
-		reset();
-		printGame();
-		moveSnake(choosePath());
-		printGame();
+
+		initialize();
+		this.longestSnakeLength = 2;
 	}
 	
 	/* * * * * * * * * * * * * * * * * * *
@@ -47,27 +51,6 @@ public class Snake {
 	 *									 *
 	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
 	 * * * * * * * * * * * * * * * * * * */
-	
-	/*
-	 * Starts the gameBoard over again
-	 */
-	void reset(){
-		
-		this.snakeLength = 1;
-		this.isWest = true;
-		this.isNorth = false;
-		this.isSouth = false;
-		this.isEast = false;
-		this.isFacingNorth = false;
-		this.isFacingEast = true;
-		this.isFacingSouth = false;
-		this.isFacingWest = false;
-		this.isComplete = false;
-		this.isStuck = false;
-		this.gameboard[2][2] = 1;
-		this.gameboard[2][1] = 2;
-		
-	}
 
 	/*
 	 * Updates all methods
@@ -81,9 +64,39 @@ public class Snake {
 		updateIsFacingNorth();
 		updateIsFacingSouth();
 		updateIsFacingWest();
-//		updateIsStuck();
-//		updateIsComplete();
+		updateIsStuck();
+		updateIsComplete();
 	}
+	
+	/*
+	 * Starts the gameBoard over again
+	 */
+	void initialize(){
+		
+		for(int r = 0; r < this.gameboard.length; r++) {
+			for(int c = 0; c < this.gameboard[0].length; c++) {
+				this.gameboard[r][c] = 0;
+			}
+		}
+		
+		this.snakeLength = 2;
+		this.isWest = true;
+		this.isNorth = false;
+		this.isSouth = false;
+		this.isEast = false;
+		this.isFacingNorth = false;
+		this.isFacingEast = true;
+		this.isFacingSouth = false;
+		this.isFacingWest = false;
+		this.isComplete = false;
+		this.isStuck = false;
+		this.gameboard[5][5] = 1;
+		this.gameboard[5][4] = 2;
+		this.spaceHolder = 0;
+		this.numberOfMoves = 0;
+		
+	}
+
 	
 	/*
 	 * Returns true if the head is facing north
@@ -91,27 +104,29 @@ public class Snake {
 	 */
 	public void updateIsFacingNorth() {
 		
-		Square head = new Square();
-		Square second = new Square();
+		int headRow = 0;
+		int headCol = 0;
+		int secondRow = 0;
+		int secondCol = 0;
 		
-		for(int r = 0; r < gameboard.length; r++) {
-			for(int c = 0; c < gameboard[0].length; c++) {
-				if(gameboard[r][c] == 1) {
-					head.getPosition()[0] = r;
-					head.getPosition()[1] = c;
+		for(int r = 0; r < this.gameboard.length; r++) {
+			for(int c = 0; c < this.gameboard[0].length; c++) {
+				if(this.gameboard[r][c] == 1) {
+					headRow = r;
+					headCol = c;
 				}
 				
-				if(gameboard[r][c] == 2) {
-					second.getPosition()[0] = r;
-					second.getPosition()[1] = c;
+				if(this.gameboard[r][c] == 2) {
+					secondRow = r;
+					secondCol = c;
 				}
 			}
 		}
 		
-		if(head.getPosition()[0] == gameboard.length - 1) {
+		if(headRow == gameboard.length - 1) {
 			this.isFacingNorth = false;
 		} else {
-			if(head.getPosition()[0] - 1 == second.getPosition()[0]) {
+			if(headRow + 1 == secondRow) {
 				this.isFacingNorth = true;
 			} else {
 				this.isFacingNorth = false;
@@ -126,27 +141,29 @@ public class Snake {
 	 */
 	public void updateIsFacingSouth() {
 		
-		Square head = new Square();
-		Square second = new Square();
+		int headRow = 0;
+		int headCol = 0;
+		int secondRow = 0;
+		int secondCol = 0;
 		
-		for(int r = 0; r < gameboard.length; r++) {
-			for(int c = 0; c < gameboard[0].length; c++) {
-				if(gameboard[r][c] == 1) {
-					head.getPosition()[0] = r;
-					head.getPosition()[1] = c;
+		for(int r = 0; r < this.gameboard.length; r++) {
+			for(int c = 0; c < this.gameboard[0].length; c++) {
+				if(this.gameboard[r][c] == 1) {
+					headRow = r;
+					headCol = c;
 				}
 				
-				if(gameboard[r][c] == 2) {
-					second.getPosition()[0] = r;
-					second.getPosition()[1] = c;
+				if(this.gameboard[r][c] == 2) {
+					secondRow = r;
+					secondCol = c;
 				}
 			}
 		}
 		
-		if(head.getPosition()[0] == 0) {
+		if(headRow == 0) {
 			this.isFacingSouth = false;
 		} else {
-			if(head.getPosition()[0] + 1 == second.getPosition()[0]) {
+			if(headRow - 1 == secondRow) {
 				this.isFacingSouth = true;
 			} else {
 				this.isFacingSouth = false;
@@ -160,27 +177,29 @@ public class Snake {
 	 */
 	public void updateIsFacingEast() {
 		
-		Square head = new Square();
-		Square second = new Square();
+		int headRow = 0;
+		int headCol = 0;
+		int secondRow = 0;
+		int secondCol = 0;
 		
-		for(int r = 0; r < gameboard.length; r++) {
-			for(int c = 0; c < gameboard[0].length; c++) {
-				if(gameboard[r][c] == 1) {
-					head.getPosition()[0] = r;
-					head.getPosition()[1] = c;
+		for(int r = 0; r < this.gameboard.length; r++) {
+			for(int c = 0; c < this.gameboard[0].length; c++) {
+				if(this.gameboard[r][c] == 1) {
+					headRow = r;
+					headCol = c;
 				}
 				
-				if(gameboard[r][c] == 2) {
-					second.getPosition()[0] = r;
-					second.getPosition()[1] = c;
+				if(this.gameboard[r][c] == 2) {
+					secondRow = r;
+					secondCol = c;
 				}
 			}
 		}
 		
-		if(head.getPosition()[1] == 0) {
+		if(headCol == 0) {
 			this.isFacingEast = false;
 		} else {
-			if(head.getPosition()[1] - 1 == second.getPosition()[1]) {
+			if(headCol - 1 == secondCol) {
 				this.isFacingEast = true;
 			} else {
 				this.isFacingEast = false;
@@ -194,27 +213,29 @@ public class Snake {
 	 */
 	public void updateIsFacingWest() {
 		
-		Square head = new Square();
-		Square second = new Square();
+		int headRow = 0;
+		int headCol = 0;
+		int secondRow = 0;
+		int secondCol = 0;
 		
-		for(int r = 0; r < gameboard.length; r++) {
-			for(int c = 0; c < gameboard[0].length; c++) {
-				if(gameboard[r][c] == 1) {
-					head.getPosition()[0] = r;
-					head.getPosition()[1] = c;
+		for(int r = 0; r < this.gameboard.length; r++) {
+			for(int c = 0; c < this.gameboard[0].length; c++) {
+				if(this.gameboard[r][c] == 1) {
+					headRow = r;
+					headCol = c;
 				}
 				
-				if(gameboard[r][c] == 2) {
-					second.getPosition()[0] = r;
-					second.getPosition()[1] = c;
+				if(this.gameboard[r][c] == 2) {
+					secondRow = r;
+					secondCol = c;
 				}
 			}
 		}
 		
-		if(head.getPosition()[1] == gameboard[0].length - 1) {
+		if(headCol == gameboard[0].length - 1) {
 			this.isFacingWest = false;
 		} else {
-			if(head.getPosition()[1] + 1 == second.getPosition()[1]) {
+			if(headCol + 1 == secondCol) {
 				this.isFacingWest = true;
 			} else {
 				this.isFacingWest = false;
@@ -222,28 +243,28 @@ public class Snake {
 		}
 	}
 	/*
-	 * Returns true if part of the body is to the west of the head object
+	 * Returns true if part of the body is to the west of the head
+	 * or if the head is in the far west column
 	 * Returns false otherwise
 	 */
 	public void updateIsWest() {
 		
-		Square head = new Square();
+		int headRow = 0;
+		int headCol = 0;
 		
-		for(int r = 0; r < gameboard.length; r++) {
-			for(int c = 0; c < gameboard[0].length; c++) {
-				if(gameboard[r][c] == 1) {
-					head.getPosition()[0] = r;
-					head.getPosition()[1] = c;
+		for(int r = 0; r < this.gameboard.length; r++) {
+			for(int c = 0; c < this.gameboard[0].length; c++) {
+				if(this.gameboard[r][c] == 1) {
+					headRow = r;
+					headCol = c;
 				}
 			}
 		}
 		
-		
-		
-		if(head.getPosition()[1] == 0) {
-			this.isWest = false;
+		if(headCol == 0) {
+			this.isWest = true;
 		} else {
-			if(gameboard[head.getPosition()[0]][head.getPosition()[1] - 1] > 0) {
+			if(gameboard[headRow][headCol - 1] > 0) {
 				this.isWest = true;
 			} else {
 				this.isWest = false;
@@ -254,26 +275,28 @@ public class Snake {
 	}
 	
 	/*
-	 * Returns true if part of the body is to the east of the head object
+	 * Returns true if part of the body is to the east of the head
+	 * or if the head is in the far east column
 	 * Returns false otherwise
 	 */
 	public void udpateIsEast() {
 		
-		Square head = new Square();
+		int headRow = 0;
+		int headCol = 0;
 		
-		for(int r = 0; r < gameboard.length; r++) {
-			for(int c = 0; c < gameboard[0].length; c++) {
-				if(gameboard[r][c] == 1) {
-					head.getPosition()[0] = r;
-					head.getPosition()[1] = c;
+		for(int r = 0; r < this.gameboard.length; r++) {
+			for(int c = 0; c < this.gameboard[0].length; c++) {
+				if(this.gameboard[r][c] == 1) {
+					headRow = r;
+					headCol = c;
 				}
 			}
 		}
 		
-		if(head.getPosition()[1] == gameboard[0].length - 1) {
-			this.isEast = false;
+		if(headCol == gameboard[0].length - 1) {
+			this.isEast = true;
 		} else {
-			if(gameboard[head.getPosition()[0]][head.getPosition()[1] + 1] > 0) {
+			if(gameboard[headRow][headCol + 1] > 0) {
 				this.isEast = true;
 			} else {
 				this.isEast = false;
@@ -283,26 +306,28 @@ public class Snake {
 	}
 	
 	/*
-	 * Returns true if part of the body is to the north of the head object
+	 * Returns true if part of the body is to the north of the head
+	 * or if the head is in the far north row
 	 * Returns false otherwise
 	 */
 	public void updateIsNorth() {
 		
-		Square head = new Square();
+		int headRow = 0;
+		int headCol = 0;
 		
-		for(int r = 0; r < gameboard.length; r++) {
-			for(int c = 0; c < gameboard[0].length; c++) {
-				if(gameboard[r][c] == 1) {
-					head.getPosition()[0] = r;
-					head.getPosition()[1] = c;
+		for(int r = 0; r < this.gameboard.length; r++) {
+			for(int c = 0; c < this.gameboard[0].length; c++) {
+				if(this.gameboard[r][c] == 1) {
+					headRow = r;
+					headCol = c;
 				}
 			}
 		}
 		
-		if(head.getPosition()[0] == 0) {
-			this.isNorth = false;
+		if(headRow == 0) {
+			this.isNorth = true;
 		} else {
-			if(gameboard[head.getPosition()[0] + 1][head.getPosition()[1]] > 0) {
+			if(gameboard[headRow - 1][headCol] > 0) {
 				this.isNorth = true;
 			} else {
 				this.isNorth = false;
@@ -313,25 +338,27 @@ public class Snake {
 	
 	/*
 	 * Returns true if part of the body is to the south of the head object
+	 * or if the head is in the far south row
 	 * Returns false otherwise
 	 */
 	public void updateIsSouth() {
 		
-		Square head = new Square();
+		int headRow = 0;
+		int headCol = 0;
 		
-		for(int r = 0; r < gameboard.length; r++) {
-			for(int c = 0; c < gameboard[0].length; c++) {
-				if(gameboard[r][c] == 1) {
-					head.getPosition()[0] = r;
-					head.getPosition()[1] = c;
+		for(int r = 0; r < this.gameboard.length; r++) {
+			for(int c = 0; c < this.gameboard[0].length; c++) {
+				if(this.gameboard[r][c] == 1) {
+					headRow = r;
+					headCol = c;
 				}
 			}
 		}
 		
-		if(head.getPosition()[0] == gameboard.length - 1) {
-			this.isSouth = false;
+		if(headRow == gameboard.length - 1) {
+			this.isSouth = true;
 		} else {
-			if(gameboard[head.getPosition()[0] - 1][head.getPosition()[1]] > 0) {
+			if(gameboard[headRow + 1][headCol] > 0) {
 				this.isSouth = true;
 			} else {
 				this.isSouth = false;
@@ -390,14 +417,12 @@ public class Snake {
 		if (this.isFacingNorth) {
 			
 			// can go any direction
-			if (!(this.isWest && this.isNorth && this.isEast)) {
 				while(path == 2) {
 					path = random.nextInt(4);
 				}
-				return path;
 				
 				// can only go east
-			} else if (this.isWest && this.isNorth) {
+			if (this.isWest && this.isNorth) {
 				return 1;
 				
 				// can only go west
@@ -432,19 +457,21 @@ public class Snake {
 
 				return path;
 			}
+			
+			return path;
 
 		// head is facing south
 		} else if (this.isFacingSouth){
 			
 			// can go any direction
-			if (!(this.isWest && this.isSouth && this.isEast)) {
+		
 				while(path == 0) {
 					path = random.nextInt(4);
 				}
-				return path;
+				
 				
 				// can only go east
-			} else if(this.isWest && this.isSouth) {
+			if(this.isWest && this.isSouth) {
 				return 1;
 				
 				// can only go west
@@ -477,19 +504,21 @@ public class Snake {
 				return path;
 
 			} 
+			
+			return path;
 
 		// head is facing east
 		} else if (this.isFacingEast) {
 			
 			// can go any direction
-			if (!(this.isNorth && this.isSouth && this.isEast)) {
+			
 				while(path == 3) {
 					path = random.nextInt(4);
 				}
-				return path;
+				
 				
 				// can only go east
-			} else if(this.isNorth && this.isSouth) {
+			if(this.isNorth && this.isSouth) {
 				return 1;
 				
 				// can only go south
@@ -522,19 +551,21 @@ public class Snake {
 				return path;
 
 			}
+			
+			return path;
 
 		// head is facing west
 		} else if (this.isFacingWest) {
 
 			// can go any direction
-			if (!(this.isWest && this.isSouth && this.isNorth)) {
+			
 				while(path == 1) {
 					path = random.nextInt(4);
 				}
-				return path;
+				
 				
 				// can only go west
-			} else if(this.isNorth && this.isSouth) {
+			if(this.isNorth && this.isSouth) {
 				return 3;
 				
 				// can only go south
@@ -568,6 +599,8 @@ public class Snake {
 
 			} 
 			
+			return path;
+			
 		}
 		return -1;
 
@@ -575,23 +608,68 @@ public class Snake {
 	
 	
 	/* 
+<<<<<<< HEAD
 	 * 
+=======
+	 * Continues the game if the snake is not stuck and can continue to move
+	 * Ends the game and prints you win message if the snake is complete
+	 * Ends the game and prints game over message if the snake is stuck
+>>>>>>> branch 'master' of https://github.com/ephs-Java/ap-cs-final-project-slithering-sneaky-sneks.git
 	 */
 	public void continueOrGameOver() throws InterruptedException {
 		
 		while(!(getIsComplete() && getIsStuck())) {
 			
+			//choosePath is embedded in moveSnake
+			moveSnake();
 			updateAll();
 			
-			moveSnake(choosePath());
-			System.out.println(choosePath());
+			//adds to the snake every ten moves
+			if(this.numberOfMoves % 10 == 0) {
+				addToSnake();
+			}
+			
+			//updates longestSnakeLength
+			if(this.snakeLength > this.longestSnakeLength) {
+				this.longestSnakeLength = this.snakeLength;
+			}
+			
+			//prints the array
+			for(int r = 0; r < this.gameboard.length; r++) {
+				for(int c = 0; c < this.gameboard[0].length; c++) {
+					if(this.gameboard[r][c] == 1) {
+						System.out.print("@" + " ");
+					}
+					else if(this.gameboard[r][c] > 0) {
+						System.out.print("+" + " ");
+					} else {
+						System.out.print("." + " ");
+					}
+				}
+				
+				
+				System.out.println();
+			}
+			
+			//prints out current and longest snake length
+			System.out.println("\t\t\t Snake length: " + this.snakeLength);
+			System.out.println("\t\t\t Longest Snake length: " + this.longestSnakeLength);
+			System.out.println();
 			
 			//Pause for one second, then make next move
-			Thread.sleep(1000);
+			Thread.sleep(200);
 			
 		} 
 		
-		//game over message
+		//System.out.println();
+		//System.out.println("GAME OVER");
+		//System.out.println("Final score: " + this.snakeLength);
+		
+		/*
+		 * Resets the game so it plays continuously 
+		 */
+		initialize();
+		continueOrGameOver();
 		
 	}
 	
@@ -608,31 +686,158 @@ public class Snake {
 	 * Moves each element of the snake depending on the path that is randomly
 	 * selected
 	 */
-	public void moveSnake(int path) {
+	public void moveSnake() {
+		int path = choosePath();
 		
-		setPos(path);
+		int headRow = 0;
+		int headCol = 0;
+		int swapCounter = 0;
 		
-	}
-	
-	private void setPos(int path){
-		if (path == 0){
-			
-		} else if (path == 1){
-			
-		} else if (path == 2){
-			
-		} else if (path == 3){
-			
-		} else {
-			gameOver();
+		//Finds the row and column of the head
+		for(int row = 0; row < this.gameboard.length; row++) {
+			for(int col = 0; col < this.gameboard[0].length; col++) {
+				if(this.gameboard[row][col] == 1) {
+					headRow = row;
+					headCol = col;
+				}
+			}
 		}
 		
+		if(this.isFacingNorth) {
+			if(path == 0) {
+				this.spaceHolderRow = headRow - 1;
+				this.spaceHolderCol = headCol;
+				
+			} else if(path == 1) {
+				this.spaceHolderRow = headRow;
+				this.spaceHolderCol = headCol + 1;
+				
+			} else if(path == 3) {
+				this.spaceHolderRow = headRow;
+				this.spaceHolderCol = headCol - 1;
+			} 
+		} else if(this.isFacingEast) {
+			if(path == 0) {
+				this.spaceHolderRow = headRow - 1;
+				this.spaceHolderCol = headCol;
+				
+			} else if(path == 1) {
+				this.spaceHolderRow = headRow;
+				this.spaceHolderCol = headCol + 1;
+				
+			} else if(path == 2) {
+				this.spaceHolderRow = headRow + 1;
+				this.spaceHolderCol = headCol;
+			}
+		} else if(this.isFacingSouth){
+			if(path == 1) {
+				this.spaceHolderRow = headRow;
+				this.spaceHolderCol = headCol + 1;
+				
+			} else if(path == 2) {
+				this.spaceHolderRow = headRow + 1;
+				this.spaceHolderCol = headCol;
+				
+			} else if(path == 3) {
+				this.spaceHolderRow = headRow;
+				this.spaceHolderCol = headCol - 1;
+			}
+		} else {
+			if(path == 0) {
+				this.spaceHolderRow = headRow - 1;
+				this.spaceHolderCol = headCol;
+				
+			} else if(path == 2) {
+				this.spaceHolderRow = headRow + 1;
+				this.spaceHolderCol = headCol;
+				
+			} else if(path == 3) {
+				this.spaceHolderRow = headRow;
+				this.spaceHolderCol = headCol - 1;
+			}
+		}
+		
+		for(int i = 1; i <= this.snakeLength; i++) {
+			for(int r = 0; r < this.gameboard.length; r++) {
+				for(int c = 0; c < this.gameboard[0].length; c++) {
+					if(this.gameboard[r][c] == i) {
+						if(swapCounter < 1) {
+							swap(r, c);
+							swapCounter++;
+						}
+						
+					}
+				}
+			}
+			swapCounter = 0;
+		}
+		
+		this.numberOfMoves++;
+		
 	}
 	
-	public void addToSnake() {
-		this.snakeLength++;
+	/*
+	 * Swaps the value and index of the snake square with the 
+	 * value and index of the spaceHolder
+	 */
+	public void swap(int row, int col) {
+		int rowHolder = row;
+		int colHolder = col;
+		int holder = this.gameboard[row][col];
 		
-		//turn the square behind the end of the tail to "1"
+		this.gameboard[row][col] = this.spaceHolder;
+		this.gameboard[this.spaceHolderRow][this.spaceHolderCol] = holder;
+		
+		
+		
+		row = this.spaceHolderRow;
+		this.spaceHolderRow = rowHolder;
+		
+		col = this.spaceHolderCol;
+		this.spaceHolderCol = colHolder;
+		
+	}
+	
+	/*
+	 * turns the square to the south of the tail to (1 + snakeLength) and adds to snake length
+	 * If the square to the south of the snake is filled it tries the west, then the north, then the east
+	 * If there is no open space to add to the tail, the snake simply continuous without adding to the tail
+	 */
+	public void addToSnake() {
+		
+		int tailRow = 0;
+		int tailCol = 0;
+		
+		for(int r = 0; r < this.gameboard.length; r++) {
+			for(int c = 0; c < this.gameboard[0].length; c++) {
+				if(this.gameboard[r][c] == this.snakeLength) {
+					tailRow = r;
+					tailCol = c;
+				}
+			}
+		}
+		
+		//Tries to add the new piece to the south
+		if(tailRow != this.gameboard[0].length - 1 && this.gameboard[tailRow + 1][tailCol] < 1) {
+			this.gameboard[tailRow + 1][tailCol] = this.snakeLength + 1;
+			this.snakeLength++;
+			
+		//Tries to add the new piece to the west	
+		} else if(tailCol != 0 && this.gameboard[tailRow][tailCol - 1] < 1) {
+			this.gameboard[tailRow][tailCol - 1] = this.snakeLength + 1;
+			this.snakeLength++;
+			
+		//Tries to add the new piece to the north	
+		} else if(tailRow != 0 && this.gameboard[tailRow - 1][tailCol] < 1) {
+			this.gameboard[tailRow - 1][tailCol] = this.snakeLength + 1;
+			this.snakeLength++;
+			
+		//Tries to add the new piece to the east	
+		} else if(tailCol != this.gameboard[0].length - 1 && this.gameboard[tailRow][tailCol + 1] < 1) {
+			this.gameboard[tailRow][tailCol + 1] = this.snakeLength + 1;
+			this.snakeLength++;
+
+		} 
 		
 	}
 	
