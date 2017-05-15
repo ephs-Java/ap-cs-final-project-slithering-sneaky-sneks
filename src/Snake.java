@@ -13,7 +13,7 @@ public class Snake {
 	
 	private int snakeLength;
 	
-	private int[][] gameboard = new int[5][5];
+	private int[][] gameboard = new int[25][25];
 	private boolean isWest;
 	private boolean isEast;
 	private boolean isNorth;
