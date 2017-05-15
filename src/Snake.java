@@ -99,11 +99,6 @@ public class Snake {
 		this.isFacingEast = true;
 		this.isFacingSouth = false;
 		this.isFacingWest = false;
-
-		this.canMoveNorth = updateCanMoveNorth();
-		this.canMoveEast = updateCanMoveEast();
-		this.canMoveSouth = updateCanMoveSouth();
-		this.canMoveWest = updateCanMoveWest();
 		
 		this.isComplete = false;
 		this.isStuck = false;
@@ -415,26 +410,6 @@ public class Snake {
 		if(this.isNorth && this.isSouth && this.isWest && this.isEast) {
 			this.isStuck = true;
 		}
-	}
-	
-	/* ~~~~~~~~~~~~~~~~~~
-	 *  updateCanMove...
-	 * ~~~~~~~~~~~~~~~~~~ */
-	
-	public boolean updateCanMoveNorth(){
-		return true;
-	}
-	
-	public boolean updateCanMoveEast(){
-		return true;
-	}
-	
-	public boolean updateCanMoveSouth(){
-		return true;
-	}
-	
-	public boolean updateCanMoveWest(){
-		return true;
 	}
 	
 	/* * * * * * * * * * * * * * * * * * *
