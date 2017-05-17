@@ -1,7 +1,14 @@
 import java.util.Random;
 import java.util.Scanner;
 
-public class Snake {
+import javax.swing.JFrame;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class Snake extends JFrame {
 	
 	/* * * * * * * * * * * * * * * * * * *
 	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
@@ -30,6 +37,7 @@ public class Snake {
 	private int numberOfMoves;
 	private int longestSnakeLength;
 	
+	
 	/* * * * * * * * * * * * * * * * * * *
 	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
 	 *									 *
@@ -42,6 +50,11 @@ public class Snake {
 
 		initialize();
 		this.longestSnakeLength = 2;
+		setTitle("Snake");
+		setSize(1000, 1000);
+		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 	}
 	
 	/* * * * * * * * * * * * * * * * * * *
@@ -97,6 +110,13 @@ public class Snake {
 		
 	}
 
+	public boolean upArrowPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_UP) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	/*
 	 * Returns true if the head is facing north
@@ -412,6 +432,9 @@ public class Snake {
 
 		Random random = new Random();
 		int path = random.nextInt(4);
+		
+		
+		
 
 		// head is facing north
 		if (this.isFacingNorth) {
@@ -620,6 +643,7 @@ public class Snake {
 		
 		while(!(getIsComplete() && getIsStuck())) {
 			
+			repaint();
 			//choosePath is embedded in moveSnake
 			moveSnake();
 			updateAll();
@@ -635,26 +659,26 @@ public class Snake {
 			}
 			
 			//prints the array
-			for(int r = 0; r < this.gameboard.length; r++) {
-				for(int c = 0; c < this.gameboard[0].length; c++) {
-					if(this.gameboard[r][c] == 1) {
-						System.out.print("@" + " ");
-					}
-					else if(this.gameboard[r][c] > 0) {
-						System.out.print("+" + " ");
-					} else {
-						System.out.print("." + " ");
-					}
-				}
-				
-				
-				System.out.println();
-			}
+//			for(int r = 0; r < this.gameboard.length; r++) {
+//				for(int c = 0; c < this.gameboard[0].length; c++) {
+//					if(this.gameboard[r][c] == 1) {
+//						System.out.print("@" + " ");
+//					}
+//					else if(this.gameboard[r][c] > 0) {
+//						System.out.print("+" + " ");
+//					} else {
+//						System.out.print("." + " ");
+//					}
+//				}
+//				
+//				
+//				System.out.println();
+//			}
 			
-			//prints out current and longest snake length
-			System.out.println("\t\t\t Snake length: " + this.snakeLength);
-			System.out.println("\t\t\t Longest Snake length: " + this.longestSnakeLength);
-			System.out.println();
+//			//prints out current and longest snake length
+//			System.out.println("\t\t\t Snake length: " + this.snakeLength);
+//			System.out.println("\t\t\t Longest Snake length: " + this.longestSnakeLength);
+//			System.out.println();
 			
 			//Pause for one second, then make next move
 			Thread.sleep(200);
@@ -888,6 +912,45 @@ public class Snake {
 		
 		System.exit(0);
 	}
+	
+	public void paint(Graphics g) {
+		int x = 50;
+		int y = 50;
+		
+		Color color = new Color(45, 250, 30);
+
+		for(int r = 0; r < this.gameboard.length; r++) {
+			for(int c = 0; c < this.gameboard[0].length; c++) {
+				if(this.gameboard[r][c] == 1) {
+					g.setColor(Color.pink);
+					g.fillRect(x, y, 10, 10);
+					g.setColor(Color.black);
+					g.drawRect(x, y, 10, 10);
+					x = x + 10;
+				}
+				else if(this.gameboard[r][c] > 0) {
+					g.setColor(color);
+					g.fillRect(x, y, 10, 10);
+					g.setColor(Color.black);
+					g.drawRect(x, y, 10, 10);
+					x = x + 10;
+				} else {
+					g.setColor(Color.BLACK);
+					g.fillRect(x, y, 10, 10);
+					g.setColor(Color.black);
+					g.drawRect(x, y, 10, 10);
+					x = x + 10;
+				}
+				
+				
+			}
+			x = 50;
+			y = y + 10;
+		}
+	
+	}
+
+	
 	
 }
 
