@@ -21,16 +21,25 @@ public class Snake extends JFrame {
 	private int snakeLength;
 	
 	private int[][] gameboard = new int[25][25];
-	private boolean isWest;
-	private boolean isEast;
+	
 	private boolean isNorth;
+	private boolean isEast;
 	private boolean isSouth;
+	private boolean isWest;
+	
 	private boolean isFacingNorth;
-	private boolean isFacingSouth;
 	private boolean isFacingEast;
+	private boolean isFacingSouth;
 	private boolean isFacingWest;
+
 	private boolean isComplete;
 	private boolean isStuck;
+	
+	private boolean canMoveNorth;
+	private boolean canMoveEast;
+	private boolean canMoveSouth;
+	private boolean canMoveWest;
+	
 	private int spaceHolder;
 	private int spaceHolderRow;
 	private int spaceHolderCol;
@@ -93,16 +102,20 @@ public class Snake extends JFrame {
 		}
 		
 		this.snakeLength = 2;
-		this.isWest = true;
+		
 		this.isNorth = false;
-		this.isSouth = false;
 		this.isEast = false;
+		this.isSouth = false;
+		this.isWest = true;
+
 		this.isFacingNorth = false;
 		this.isFacingEast = true;
 		this.isFacingSouth = false;
 		this.isFacingWest = false;
+		
 		this.isComplete = false;
 		this.isStuck = false;
+		
 		this.gameboard[5][5] = 1;
 		this.gameboard[5][4] = 2;
 		this.spaceHolder = 0;
@@ -110,6 +123,7 @@ public class Snake extends JFrame {
 		
 	}
 
+<<<<<<< HEAD
 	public boolean upArrowPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_UP) {
 			return true;
@@ -117,6 +131,11 @@ public class Snake extends JFrame {
 			return false;
 		}
 	}
+=======
+	/* ~~~~~~~~~~~~~~~~~~~
+	 *  updateIsFacing...
+	 * ~~~~~~~~~~~~~~~~~~~ */
+>>>>>>> origin/master
 	
 	/*
 	 * Returns true if the head is facing north
@@ -262,6 +281,11 @@ public class Snake extends JFrame {
 			}
 		}
 	}
+	
+	/* ~~~~~~~~~~~~~
+	 *  updateIs... 
+	 * ~~~~~~~~~~~~~ */
+	
 	/*
 	 * Returns true if part of the body is to the west of the head
 	 * or if the head is in the far west column
@@ -631,13 +655,9 @@ public class Snake extends JFrame {
 	
 	
 	/* 
-<<<<<<< HEAD
-	 * 
-=======
 	 * Continues the game if the snake is not stuck and can continue to move
 	 * Ends the game and prints you win message if the snake is complete
 	 * Ends the game and prints game over message if the snake is stuck
->>>>>>> branch 'master' of https://github.com/ephs-Java/ap-cs-final-project-slithering-sneaky-sneks.git
 	 */
 	public void continueOrGameOver() throws InterruptedException {
 		
