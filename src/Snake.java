@@ -446,14 +446,46 @@ public class Snake extends JFrame implements KeyListener {
 	 */
 	public int choosePath() {
 		
-		if(this.path == 0) {
-			return 0;
-		} else if(this.path == 1) {
-			return 1;
-		} else if(this.path == 2) {
-			return 2;
+		if(this.isFacingNorth) {
+			if(this.path == 0) {
+				return 0;
+			} else if(this.path == 1) {
+				return 1;
+			} else if(this.path == 2) {
+				return 0;
+			} else {
+				return 3;
+			}
+		} else if(this.isFacingEast) {
+			if(this.path == 0) {
+				return 0;
+			} else if(this.path == 1) {
+				return 1;
+			} else if(this.path == 2) {
+				return 2;
+			} else {
+				return 1;
+			}
+		} else if(this.isFacingSouth) {
+			if(this.path == 0) {
+				return 2;
+			} else if(this.path == 1) {
+				return 1;
+			} else if(this.path == 2) {
+				return 2;
+			} else {
+				return 3;
+			}
 		} else {
-			return 3;
+			if(this.path == 0) {
+				return 0;
+			} else if(this.path == 1) {
+				return 3;
+			} else if(this.path == 2) {
+				return 2;
+			} else {
+				return 3;
+			}
 		}
 		
 
@@ -704,7 +736,7 @@ public class Snake extends JFrame implements KeyListener {
 //			System.out.println();
 			
 			//Pause for one second, then make next move
-			Thread.sleep(200);
+			Thread.sleep(100);
 			
 		} 
 		
