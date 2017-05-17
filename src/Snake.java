@@ -47,6 +47,7 @@ public class Snake extends JFrame implements KeyListener {
 	private int longestSnakeLength;
 	
 	private int path;
+	private boolean gameIsStarted;
 	
 	
 	/* * * * * * * * * * * * * * * * * * *
@@ -124,6 +125,7 @@ public class Snake extends JFrame implements KeyListener {
 		this.gameboard[5][4] = 2;
 		this.spaceHolder = 0;
 		this.numberOfMoves = 0;
+		this.gameIsStarted = false;
 		
 	}
 
@@ -696,6 +698,11 @@ public class Snake extends JFrame implements KeyListener {
 	 */
 	public void continueOrGameOver() throws InterruptedException {
 		
+		while(this.gameIsStarted == false) {
+			//do nothing
+			Thread.sleep(50);
+		}
+		
 		while(!(getIsComplete() && getIsStuck())) {
 			
 			repaint();
@@ -736,7 +743,7 @@ public class Snake extends JFrame implements KeyListener {
 //			System.out.println();
 			
 			//Pause for one second, then make next move
-			Thread.sleep(100);
+			Thread.sleep(50);
 			
 		} 
 		
@@ -1015,6 +1022,10 @@ public class Snake extends JFrame implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		
 		int keyCode = e.getKeyCode();
+		
+		if(keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_DOWN) {
+			this.gameIsStarted = true;
+		}
 		
 		if(keyCode == KeyEvent.VK_UP) {
 			this.path = 0;
