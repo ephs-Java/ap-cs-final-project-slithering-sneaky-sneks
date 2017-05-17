@@ -8,7 +8,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Snake extends JFrame {
+public class Snake extends JFrame implements KeyListener {
 	
 	/* * * * * * * * * * * * * * * * * * *
 	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
@@ -20,7 +20,7 @@ public class Snake extends JFrame {
 	
 	private int snakeLength;
 	
-	private int[][] gameboard = new int[25][25];
+	private int[][] gameboard = new int[60][60];
 	
 	private boolean isNorth;
 	private boolean isEast;
@@ -46,6 +46,8 @@ public class Snake extends JFrame {
 	private int numberOfMoves;
 	private int longestSnakeLength;
 	
+	private int path;
+	
 	
 	/* * * * * * * * * * * * * * * * * * *
 	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
@@ -63,6 +65,7 @@ public class Snake extends JFrame {
 		setSize(1000, 1000);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		addKeyListener(this);
 		
 	}
 	
@@ -101,6 +104,7 @@ public class Snake extends JFrame {
 			}
 		}
 		
+		this.path = 1;
 		this.snakeLength = 2;
 		
 		this.isNorth = false;
@@ -123,19 +127,7 @@ public class Snake extends JFrame {
 		
 	}
 
-<<<<<<< HEAD
-	public boolean upArrowPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_UP) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-=======
-	/* ~~~~~~~~~~~~~~~~~~~
-	 *  updateIsFacing...
-	 * ~~~~~~~~~~~~~~~~~~~ */
->>>>>>> origin/master
+
 	
 	/*
 	 * Returns true if the head is facing north
@@ -453,203 +445,214 @@ public class Snake extends JFrame {
 	 * 3 = west
 	 */
 	public int choosePath() {
-
-		Random random = new Random();
-		int path = random.nextInt(4);
 		
-		
-		
-
-		// head is facing north
-		if (this.isFacingNorth) {
-			
-			// can go any direction
-				while(path == 2) {
-					path = random.nextInt(4);
-				}
-				
-				// can only go east
-			if (this.isWest && this.isNorth) {
-				return 1;
-				
-				// can only go west
-			} else if (this.isNorth && this.isEast) {
-				return 3;
-
-				// can only go north
-			} else if (this.isWest && this.isEast) {
-				return 0;
-
-				// can only go north or east 
-			} else if (this.isWest) {
-				while(path == 3 || path == 2) {
-					path = random.nextInt(4);
-				}
-
-				return path;
-
-				// can only go north or west
-			} else if (this.isEast) {
-				while(path == 1 || path == 2) {
-					path = random.nextInt(4);
-				}
-
-				return path;
-
-				// can only go east or west
-			} else if (this.isNorth) {
-				while(path == 0 || path == 2) {
-					path = random.nextInt(4);
-				}
-
-				return path;
-			}
-			
-			return path;
-
-		// head is facing south
-		} else if (this.isFacingSouth){
-			
-			// can go any direction
-		
-				while(path == 0) {
-					path = random.nextInt(4);
-				}
-				
-				
-				// can only go east
-			if(this.isWest && this.isSouth) {
-				return 1;
-				
-				// can only go west
-			} else if(this.isSouth && this.isEast) {
-				return 3;
-				
-				// can only go south
-			} else if(this.isWest && this.isEast) {
-				return 2;
-				
-				// can only go south or east
-			} else if(this.isWest) {
-				while(path == 0 || path == 3) {
-					path = random.nextInt(4);
-				}
-				return path;
-				
-				// can only go west or south
-			} else if(this.isEast) {
-				while(path == 0 || path == 1) {
-					path = random.nextInt(4);
-				}
-				return path;
-				
-				// can only go east or west
-			} else if(this.isSouth) {
-				while(path == 0 || path == 2) {
-					path = random.nextInt(4);
-				}
-				return path;
-
-			} 
-			
-			return path;
-
-		// head is facing east
-		} else if (this.isFacingEast) {
-			
-			// can go any direction
-			
-				while(path == 3) {
-					path = random.nextInt(4);
-				}
-				
-				
-				// can only go east
-			if(this.isNorth && this.isSouth) {
-				return 1;
-				
-				// can only go south
-			} else if(this.isNorth && this.isEast) {
-				return 2;
-				
-				// can only go north
-			} else if(this.isEast && this.isSouth) {
-				return 0;
-				
-				// can only go north or south
-			} else if(this.isEast) {
-				while(path == 3 || path == 1) {
-					path = random.nextInt(4);
-				}
-				return path;
-				
-				// can only go east or south
-			} else if(this.isNorth) {
-				while(path == 3 || path == 0) {
-					path = random.nextInt(4);
-				}
-				return path;
-
-				// can only go north or east
-			} else if(this.isSouth) {
-				while(path == 3 || path == 2) {
-					path = random.nextInt(4);
-				}
-				return path;
-
-			}
-			
-			return path;
-
-		// head is facing west
-		} else if (this.isFacingWest) {
-
-			// can go any direction
-			
-				while(path == 1) {
-					path = random.nextInt(4);
-				}
-				
-				
-				// can only go west
-			if(this.isNorth && this.isSouth) {
-				return 3;
-				
-				// can only go south
-			} else if(this.isNorth && this.isWest) {
-				return 2;
-				
-				// can only go north
-			} else if(this.isWest && this.isSouth) {
-				return 0;
-
-				// can only go north or south
-			} else if(this.isWest) {
-				while(path == 1 || path == 3) {
-					path = random.nextInt(4);
-				}
-				return path;
-
-				// can only go west or south
-			} else if(this.isNorth) {
-				while(path == 1 || path == 0) {
-					path = random.nextInt(4);
-				}
-				return path;
-
-				// can only go west or north
-			} else if(this.isSouth) {
-				while(path == 1 || path == 2) {
-					path = random.nextInt(4);
-				}
-				return path;
-
-			} 
-			
-			return path;
-			
+		if(this.path == 0) {
+			return 0;
+		} else if(this.path == 1) {
+			return 1;
+		} else if(this.path == 2) {
+			return 2;
+		} else {
+			return 3;
 		}
-		return -1;
+		
+
+//		Random random = new Random();
+//		int path = random.nextInt(4);
+//		
+//		
+//		
+//
+//		// head is facing north
+//		if (this.isFacingNorth) {
+//			
+//			// can go any direction
+//				while(path == 2) {
+//					path = random.nextInt(4);
+//				}
+//				
+//				// can only go east
+//			if (this.isWest && this.isNorth) {
+//				return 1;
+//				
+//				// can only go west
+//			} else if (this.isNorth && this.isEast) {
+//				return 3;
+//
+//				// can only go north
+//			} else if (this.isWest && this.isEast) {
+//				return 0;
+//
+//				// can only go north or east 
+//			} else if (this.isWest) {
+//				while(path == 3 || path == 2) {
+//					path = random.nextInt(4);
+//				}
+//
+//				return path;
+//
+//				// can only go north or west
+//			} else if (this.isEast) {
+//				while(path == 1 || path == 2) {
+//					path = random.nextInt(4);
+//				}
+//
+//				return path;
+//
+//				// can only go east or west
+//			} else if (this.isNorth) {
+//				while(path == 0 || path == 2) {
+//					path = random.nextInt(4);
+//				}
+//
+//				return path;
+//			}
+//			
+//			return path;
+//
+//		// head is facing south
+//		} else if (this.isFacingSouth){
+//			
+//			// can go any direction
+//		
+//				while(path == 0) {
+//					path = random.nextInt(4);
+//				}
+//				
+//				
+//				// can only go east
+//			if(this.isWest && this.isSouth) {
+//				return 1;
+//				
+//				// can only go west
+//			} else if(this.isSouth && this.isEast) {
+//				return 3;
+//				
+//				// can only go south
+//			} else if(this.isWest && this.isEast) {
+//				return 2;
+//				
+//				// can only go south or east
+//			} else if(this.isWest) {
+//				while(path == 0 || path == 3) {
+//					path = random.nextInt(4);
+//				}
+//				return path;
+//				
+//				// can only go west or south
+//			} else if(this.isEast) {
+//				while(path == 0 || path == 1) {
+//					path = random.nextInt(4);
+//				}
+//				return path;
+//				
+//				// can only go east or west
+//			} else if(this.isSouth) {
+//				while(path == 0 || path == 2) {
+//					path = random.nextInt(4);
+//				}
+//				return path;
+//
+//			} 
+//			
+//			return path;
+//
+//		// head is facing east
+//		} else if (this.isFacingEast) {
+//			
+//			// can go any direction
+//			
+//				while(path == 3) {
+//					path = random.nextInt(4);
+//				}
+//				
+//				
+//				// can only go east
+//			if(this.isNorth && this.isSouth) {
+//				return 1;
+//				
+//				// can only go south
+//			} else if(this.isNorth && this.isEast) {
+//				return 2;
+//				
+//				// can only go north
+//			} else if(this.isEast && this.isSouth) {
+//				return 0;
+//				
+//				// can only go north or south
+//			} else if(this.isEast) {
+//				while(path == 3 || path == 1) {
+//					path = random.nextInt(4);
+//				}
+//				return path;
+//				
+//				// can only go east or south
+//			} else if(this.isNorth) {
+//				while(path == 3 || path == 0) {
+//					path = random.nextInt(4);
+//				}
+//				return path;
+//
+//				// can only go north or east
+//			} else if(this.isSouth) {
+//				while(path == 3 || path == 2) {
+//					path = random.nextInt(4);
+//				}
+//				return path;
+//
+//			}
+//			
+//			return path;
+//
+//		// head is facing west
+//		} else if (this.isFacingWest) {
+//
+//			// can go any direction
+//			
+//				while(path == 1) {
+//					path = random.nextInt(4);
+//				}
+//				
+//				
+//				// can only go west
+//			if(this.isNorth && this.isSouth) {
+//				return 3;
+//				
+//				// can only go south
+//			} else if(this.isNorth && this.isWest) {
+//				return 2;
+//				
+//				// can only go north
+//			} else if(this.isWest && this.isSouth) {
+//				return 0;
+//
+//				// can only go north or south
+//			} else if(this.isWest) {
+//				while(path == 1 || path == 3) {
+//					path = random.nextInt(4);
+//				}
+//				return path;
+//
+//				// can only go west or south
+//			} else if(this.isNorth) {
+//				while(path == 1 || path == 0) {
+//					path = random.nextInt(4);
+//				}
+//				return path;
+//
+//				// can only go west or north
+//			} else if(this.isSouth) {
+//				while(path == 1 || path == 2) {
+//					path = random.nextInt(4);
+//				}
+//				return path;
+//
+//			} 
+//			
+//			return path;
+//			
+//		}
+//		return -1;
 
 	}
 	
@@ -968,6 +971,35 @@ public class Snake extends JFrame {
 			y = y + 10;
 		}
 	
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+		int keyCode = e.getKeyCode();
+		
+		if(keyCode == KeyEvent.VK_UP) {
+			this.path = 0;
+		} else if(keyCode == KeyEvent.VK_LEFT) {
+			this.path = 3;
+		} else if(keyCode == KeyEvent.VK_RIGHT) {
+			this.path = 1;
+		} else {
+			this.path = 2;
+		}
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
