@@ -754,58 +754,56 @@ public class Snake extends JFrame implements KeyListener {
 //			Thread.sleep(50);
 //		}
 		
-		while(!(getIsComplete()) && canMove()) {
-			
-
-
 		while(this.gameIsStarted == false) {
 			//do nothing
 			Thread.sleep(50);
 		}
 
 		while(!(getIsComplete() && getIsStuck())) {
+			while(canMove()) {
 
-
-			repaint();
-			//choosePath is embedded in moveSnake
-			moveSnake();
+				repaint();
+				//choosePath is embedded in moveSnake
+				moveSnake();
+				
+				//adds to the snake every ten moves
+				if(this.numberOfMoves % 10 == 0) {
+					addTail();
+				}
+				
+				updateAll();
+	
+				//updates longestSnakeLength
+				if(this.snakeLength > this.longestSnakeLength) {
+					this.longestSnakeLength = this.snakeLength;
+				}
+	
+				//prints the array
+				//			for(int r = 0; r < this.gameboard.length; r++) {
+				//				for(int c = 0; c < this.gameboard[0].length; c++) {
+				//					if(this.gameboard[r][c] == 1) {
+				//						System.out.print("@" + " ");
+				//					}
+				//					else if(this.gameboard[r][c] > 0) {
+				//						System.out.print("+" + " ");
+				//					} else {
+				//						System.out.print("." + " ");
+				//					}
+				//				}
+				//				
+				//				
+				//				System.out.println();
+				//			}
+	
+				//			//prints out current and longest snake length
+				//			System.out.println("\t\t\t Snake length: " + this.snakeLength);
+				//			System.out.println("\t\t\t Longest Snake length: " + this.longestSnakeLength);
+				//			System.out.println();
+	
+				//Pause for one second, then make next move
+				Thread.sleep(50);
 			
-			//adds to the snake every ten moves
-			if(this.numberOfMoves % 10 == 0) {
-				addTail();
 			}
-			
-			updateAll();
-
-			//updates longestSnakeLength
-			if(this.snakeLength > this.longestSnakeLength) {
-				this.longestSnakeLength = this.snakeLength;
-			}
-
-			//prints the array
-			//			for(int r = 0; r < this.gameboard.length; r++) {
-			//				for(int c = 0; c < this.gameboard[0].length; c++) {
-			//					if(this.gameboard[r][c] == 1) {
-			//						System.out.print("@" + " ");
-			//					}
-			//					else if(this.gameboard[r][c] > 0) {
-			//						System.out.print("+" + " ");
-			//					} else {
-			//						System.out.print("." + " ");
-			//					}
-			//				}
-			//				
-			//				
-			//				System.out.println();
-			//			}
-
-			//			//prints out current and longest snake length
-			//			System.out.println("\t\t\t Snake length: " + this.snakeLength);
-			//			System.out.println("\t\t\t Longest Snake length: " + this.longestSnakeLength);
-			//			System.out.println();
-
-			//Pause for one second, then make next move
-			Thread.sleep(50);
 
 		} 
 
@@ -818,7 +816,7 @@ public class Snake extends JFrame implements KeyListener {
 		 */
 		initialize();
 		continueOrGameOver();
-		}
+		
 	}
 
 	/* * * * * * * * * * * * * * * * * * *
