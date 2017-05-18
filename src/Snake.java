@@ -437,6 +437,42 @@ public class Snake extends JFrame implements KeyListener {
 	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
 	 * * * * * * * * * * * * * * * * * * */
 
+	public boolean canMove(int path) {
+		if(path == 0) {
+			
+			if(this.isNorth) {
+				return false;
+			} else {
+				return true;
+			}
+			
+		} else if(path == 1) {
+			
+			if(this.isEast) {
+				return false;
+			} else {
+				return true;
+			}
+			
+		} else if(path == 2) {
+			
+			if(this.isSouth) {
+				return false;
+			} else {
+				return true;
+			}
+			
+		} else {
+			
+			if(this.isWest) {
+				return false;
+			} else {
+				return true;
+			}
+			
+		}
+	}
+	
 	
 	/*
 	 * Returns either 0, 1, 2, or 3 to represent the path the snake will take
