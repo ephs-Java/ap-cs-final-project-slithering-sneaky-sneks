@@ -121,8 +121,8 @@ public class Snake extends JFrame implements KeyListener {
 		this.isComplete = false;
 		this.isStuck = false;
 		
-		this.gameboard[5][5] = 1;
-		this.gameboard[5][4] = 2;
+		this.gameboard[30][30] = 1;
+		this.gameboard[30][29] = 2;
 		this.spaceHolder = 0;
 		this.numberOfMoves = 0;
 		this.gameIsStarted = false;
