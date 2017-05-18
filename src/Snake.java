@@ -448,6 +448,46 @@ public class Snake extends JFrame implements KeyListener {
 	 * * * * * * * * * * * * * * * * * * */
 
 
+	public boolean canMove() {
+		if(this.path == 0) {
+			
+			if(this.isNorth) {
+				return false;
+			} else {
+				return true;
+			}
+			
+		} else if(this.path == 1) {
+			
+			if(this.isEast) {
+				return false;
+			} else {
+				return true;
+			}
+			
+		} else if(this.path == 2) {
+			
+			if(this.isSouth) {
+				return false;
+			} else {
+				return true;
+			}
+			
+		} else {
+			
+			if(this.isWest) {
+				return false;
+			} else {
+				return true;
+			}
+			
+		}
+	}
+	
+	
+
+
+
 	/*
 	 * Returns either 0, 1, 2, or 3 to represent the path the snake will take
 	 * Returns -1 if there is 
@@ -708,12 +748,23 @@ public class Snake extends JFrame implements KeyListener {
 	 */
 	public void continueOrGameOver() throws InterruptedException {
 
+		
+//		while(this.gameIsStarted == false) {
+//			//do nothing
+//			Thread.sleep(50);
+//		}
+		
+		while(!(getIsComplete()) && canMove()) {
+			
+
+
 		while(this.gameIsStarted == false) {
 			//do nothing
 			Thread.sleep(50);
 		}
 
 		while(!(getIsComplete() && getIsStuck())) {
+
 
 			repaint();
 			//choosePath is embedded in moveSnake
@@ -767,7 +818,7 @@ public class Snake extends JFrame implements KeyListener {
 		 */
 		initialize();
 		continueOrGameOver();
-
+		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * *
