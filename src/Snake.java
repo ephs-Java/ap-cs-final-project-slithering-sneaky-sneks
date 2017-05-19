@@ -25,6 +25,8 @@ public class Snake extends JFrame implements KeyListener {
 	private int[][] gameboard = new int[60][60];
 
 	private int thePath = 1;
+	
+	public int numberOfFruit;
 
 	private boolean isNorth;
 	private boolean isEast;
@@ -112,6 +114,8 @@ public class Snake extends JFrame implements KeyListener {
 		this.path = 1;
 		this.snakeLength = 2;
 
+		this.numberOfFruit = 0;
+		
 		this.isNorth = false;
 		this.isEast = false;
 		this.isSouth = false;
@@ -430,7 +434,7 @@ public class Snake extends JFrame implements KeyListener {
 			this.isStuck = true;
 		}
 	}
-	
+
 	/*
 	 * this method adds a tail in the spot of the previous tail
 	 */
@@ -439,6 +443,18 @@ public class Snake extends JFrame implements KeyListener {
 		this.gameboard[this.spaceHolderRow][this.spaceHolderCol] = this.snakeLength;
 	}
 
+	public void createFruit(){
+		Random rand = new Random();
+		int row = rand.nextInt(gameboard.length);
+		int col = rand.nextInt(gameboard[0].length);
+		while(gameboard[row][col] != 0){
+			row = rand.nextInt(gameboard.length);
+			col = rand.nextInt(gameboard[0].length);
+		}
+		gameboard[row][col] = -1;
+		this.numberOfFruit++;
+	}
+	
 	/* * * * * * * * * * * * * * * * * * *
 	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
 	 *									 *
@@ -766,10 +782,16 @@ public class Snake extends JFrame implements KeyListener {
 				//choosePath is embedded in moveSnake
 				moveSnake();
 				
-				//adds to the snake every ten moves
-				if(this.numberOfMoves % 10 == 0) {
-					addTail();
+//				//adds to the snake every ten moves
+//				if(this.numberOfMoves % 10 == 0) {
+//					addTail();
+//				}
+
+				if(this.numberOfFruit <= 2 && this.numberOfMoves % 100 == 0){
+					createFruit();
 				}
+				
+				//
 				
 				updateAll();
 	
@@ -839,6 +861,7 @@ public class Snake extends JFrame implements KeyListener {
 		int headRow = 0;
 		int headCol = 0;
 		int swapCounter = 0;
+		int numFruit = this.numberOfFruit;
 
 		//Finds the row and column of the head
 		for(int row = 0; row < this.gameboard.length; row++) {
@@ -904,6 +927,10 @@ public class Snake extends JFrame implements KeyListener {
 				this.spaceHolderCol = headCol - 1;
 			}
 		}
+		
+		if (this.gameboard[this.spaceHolderRow][this.spaceHolderCol] == -1){
+			numFruit--;
+		}
 
 		for(int i = 1; i <= this.snakeLength; i++) {
 			for(int r = 0; r < this.gameboard.length; r++) {
@@ -920,6 +947,9 @@ public class Snake extends JFrame implements KeyListener {
 			swapCounter = 0;
 		}
 
+		if (numFruit < this.numberOfFruit){
+			addTail();
+		}
 		this.numberOfMoves++;
 
 	}
@@ -1049,13 +1079,18 @@ public class Snake extends JFrame implements KeyListener {
 		for(int r = 0; r < this.gameboard.length; r++) {
 			for(int c = 0; c < this.gameboard[0].length; c++) {
 				if(this.gameboard[r][c] == 1) {
-					g.setColor(Color.pink);
+					g.setColor(Color.red);
 					g.fillRect(x, y, 10, 10);
 					g.setColor(Color.black);
 					g.drawRect(x, y, 10, 10);
 					x = x + 10;
-				}
-				else if(this.gameboard[r][c] > 0) {
+				} else if (this.gameboard[r][c] == -1){
+					g.setColor(Color.yellow);
+					g.fillRect(x, y, 10, 10);
+					g.setColor(Color.black);
+					g.drawRect(x, y, 10, 10);
+					x = x + 10;
+				} else if(this.gameboard[r][c] > 0) {
 					g.setColor(color);
 					g.fillRect(x, y, 10, 10);
 					g.setColor(Color.black);
