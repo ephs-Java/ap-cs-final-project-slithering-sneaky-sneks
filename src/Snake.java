@@ -69,7 +69,7 @@ public class Snake extends JFrame implements KeyListener {
 		initialize();
 		this.longestSnakeLength = 2;
 		setTitle("Snake");
-		setSize(1000, 1000);
+		setSize(700, 700);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addKeyListener(this);
@@ -463,7 +463,6 @@ public class Snake extends JFrame implements KeyListener {
 	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
 	 * * * * * * * * * * * * * * * * * * */
 
-
 	public boolean canMove() {
 		if(this.path == 0) {
 			
@@ -500,10 +499,6 @@ public class Snake extends JFrame implements KeyListener {
 		}
 	}
 	
-	
-
-
-
 	/*
 	 * Returns either 0, 1, 2, or 3 to represent the path the snake will take
 	 * Returns -1 if there is 
