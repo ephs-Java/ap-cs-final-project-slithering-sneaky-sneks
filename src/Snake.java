@@ -760,11 +760,12 @@ public class Snake extends JFrame implements KeyListener {
 		}
 
 		while(!(getIsComplete() && getIsStuck())) {
+			
 			while(canMove()) {
-
+				moveSnake();
 				repaint();
 				//choosePath is embedded in moveSnake
-				moveSnake();
+				
 				
 				//adds to the snake every ten moves
 				if(this.numberOfMoves % 10 == 0) {
@@ -1092,14 +1093,46 @@ public class Snake extends JFrame implements KeyListener {
 			this.gameIsStarted = true;
 		}
 
-		if(keyCode == KeyEvent.VK_UP) {
-			this.path = 0;
-		} else if(keyCode == KeyEvent.VK_LEFT) {
-			this.path = 3;
-		} else if(keyCode == KeyEvent.VK_RIGHT) {
-			this.path = 1;
+		if(this.isFacingNorth) {
+			if(keyCode == KeyEvent.VK_UP) {
+				this.path = 0;
+			} else if(keyCode == KeyEvent.VK_LEFT) {
+				this.path = 3;
+			} else if(keyCode == KeyEvent.VK_RIGHT) {
+				this.path = 1;
+			} else {
+				this.path = 0;
+			}
+		} else if(this.isFacingEast) {
+			if(keyCode == KeyEvent.VK_UP) {
+				this.path = 0;
+			} else if(keyCode == KeyEvent.VK_LEFT) {
+				this.path = 1;
+			} else if(keyCode == KeyEvent.VK_RIGHT) {
+				this.path = 1;
+			} else {
+				this.path = 2;
+			}
+		} else if(this.isFacingSouth) {
+			if(keyCode == KeyEvent.VK_UP) {
+				this.path = 2;
+			} else if(keyCode == KeyEvent.VK_LEFT) {
+				this.path = 3;
+			} else if(keyCode == KeyEvent.VK_RIGHT) {
+				this.path = 1;
+			} else {
+				this.path = 2;
+			}
 		} else {
-			this.path = 2;
+			if(keyCode == KeyEvent.VK_UP) {
+				this.path = 0;
+			} else if(keyCode == KeyEvent.VK_LEFT) {
+				this.path = 3;
+			} else if(keyCode == KeyEvent.VK_RIGHT) {
+				this.path = 3;
+			} else {
+				this.path = 2;
+			}
 		}
 	}
 
