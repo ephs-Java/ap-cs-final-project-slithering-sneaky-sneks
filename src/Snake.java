@@ -788,7 +788,7 @@ public class Snake extends JFrame implements KeyListener {
 //					addTail();
 //				}
 
-				if(this.numberOfFruit <= 2 && this.numberOfMoves % 100 == 0){
+				if(this.numberOfFruit == 0 || (this.numberOfFruit <= 2 && this.numberOfMoves % 100 == 0)){
 					createFruit();
 				}
 				
