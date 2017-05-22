@@ -2,9 +2,17 @@ import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -66,13 +74,18 @@ public class Snake extends JFrame implements KeyListener {
 
 	public Snake() {
 
+		
 		initialize();
 		this.longestSnakeLength = 2;
 		setTitle("Snake");
-		setSize(700, 700);
+		
+		setSize(850, 1000);
 		setVisible(true);
+		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addKeyListener(this);
+	
+		
 
 	}
 
@@ -134,6 +147,11 @@ public class Snake extends JFrame implements KeyListener {
 		this.spaceHolder = 0;
 		this.numberOfMoves = 0;
 		this.gameIsStarted = false;
+		
+		
+		
+		
+		
 
 	}
 
@@ -774,7 +792,7 @@ public class Snake extends JFrame implements KeyListener {
 			
 			while(canMove()) {
 				moveSnake();
-				repaint();
+				
 				//choosePath is embedded in moveSnake
 				
 				
@@ -819,9 +837,10 @@ public class Snake extends JFrame implements KeyListener {
 				//			System.out.println();
 	
 				//Pause for one second, then make next move
-				Thread.sleep(50);
-			
+				Thread.sleep(40);
+				repaint();
 			}
+			
 
 		} 
 
@@ -1070,9 +1089,9 @@ public class Snake extends JFrame implements KeyListener {
 	public void paint(Graphics g) {
 		int x = 50;
 		int y = 50;
-
+		
 		Color color = new Color(45, 250, 30);
-
+		
 		for(int r = 0; r < this.gameboard.length; r++) {
 			for(int c = 0; c < this.gameboard[0].length; c++) {
 				if(this.gameboard[r][c] == 1) {
@@ -1106,6 +1125,35 @@ public class Snake extends JFrame implements KeyListener {
 			x = 50;
 			y = y + 10;
 		}
+		
+		g.setColor(getBackground());
+		g.fillRect(680, 250, 500, 100);
+		g.setColor(Color.BLACK);
+		Font font = new Font("Courier", Font.BOLD,20);
+		g.setFont(font);
+		if(this.snakeLength == 2) {
+			g.drawString("Score: 0", 700, 300);
+		} else {
+			g.drawString("Score: " + (this.snakeLength - 2), 700, 300);
+		}
+		
+		if(canMove() == false) {
+			g.setColor(color);
+			g.fillRect(150, 250, 400, 200);
+			
+			g.setColor(Color.YELLOW);
+			g.fillRect(175, 375, 150, 50);
+			g.fillRect(370, 375, 150, 50);
+			
+			g.setColor(Color.RED);
+			g.setFont(new Font("Courier", Font.BOLD,40));
+			g.drawString("GAME OVER", 240, 300);
+			
+			g.setFont(new Font("Courier", Font.BOLD,20));
+			g.drawString("Play Again", 190, 407);
+			g.drawString("Main Menu", 390, 407);
+		}
+		
 
 	}
 
