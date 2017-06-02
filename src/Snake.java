@@ -1,8 +1,12 @@
 import java.util.Random;
 import java.util.Scanner;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -20,6 +24,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Snake extends JFrame implements KeyListener, MouseListener, Runnable {
 
@@ -63,6 +71,9 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 	private boolean isMainMenuPressed;
 	private boolean isMainMenuClicked;
 	private boolean isGameOver;
+	
+	private boolean canMove;
+	private int speed;
 
 
 	/* * * * * * * * * * * * * * * * * * *
@@ -73,11 +84,17 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
 	 * * * * * * * * * * * * * * * * * * */
 
-	public Snake() {
+	public Snake() throws FileNotFoundException {
 
+		Scanner input = new Scanner(new File("HighScore"));
+		String l = "";
+		while(input.hasNext()) {
+			l = input.next();
+	
+		}
 		
+		this.longestSnakeLength = Integer.valueOf(l);
 		initialize();
-		this.longestSnakeLength = 2;
 		setTitle("Snake");
 		
 		setSize(850, 1000);
@@ -86,6 +103,65 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addKeyListener(this);
 		addMouseListener(this);
+		
+		System.setProperty("apple.laf.useScreenMenuBar", "true");
+		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Name");
+		JMenuBar menuBar = new JMenuBar();
+		
+		//Creates options menu
+		JMenu options = new JMenu("Options");
+		menuBar.add(options);
+		
+		//Creates submenu speed within options menu
+		JMenu speed = new JMenu("Speed");
+		
+		
+		//Creates items fast, medium, slow within submenu
+		JCheckBoxMenuItem fast = new JCheckBoxMenuItem("Fast");
+		JCheckBoxMenuItem medium = new JCheckBoxMenuItem("Medium");
+		JCheckBoxMenuItem slow = new JCheckBoxMenuItem("Slow");
+		
+		speed.add(fast);
+		speed.add(medium);
+		speed.add(slow);
+		options.add(speed);
+		
+		setJMenuBar(menuBar);
+		this.speed = 40;
+		
+		medium.setSelected(true);
+		
+		 fast.addActionListener(new ActionListener() {
+		        
+
+				public void actionPerformed(ActionEvent actionEvent) {
+					chooseSpeed(20);
+					fast.setSelected(true);
+					medium.setSelected(false);
+					slow.setSelected(false);
+		        }
+				
+		    });
+	
+		 medium.addActionListener(new ActionListener() {
+		     
+
+				public void actionPerformed(ActionEvent actionEvent) {
+					chooseSpeed(40);
+					fast.setSelected(false);
+					medium.setSelected(true);
+					slow.setSelected(false);
+		        }
+		    });
+		 slow.addActionListener(new ActionListener() {
+		   
+
+				public void actionPerformed(ActionEvent actionEvent) {
+					fast.setSelected(false);
+					medium.setSelected(false);
+					slow.setSelected(true);
+		        }
+		    });
 	
 		
 
@@ -102,6 +178,15 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 	/*
 	 * Updates all methods
 	 */
+	
+	public void fileWriter() throws IOException {
+		FileWriter fw = new FileWriter("HighScore");
+		
+		fw.write("" + this.longestSnakeLength);
+		
+		fw.close();
+	}
+	
 	public void updateAll(){
 		udpateIsEast();
 		updateIsNorth();
@@ -112,6 +197,7 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 		updateIsFacingSouth();
 		updateIsFacingWest();
 		updateIsComplete();
+		
 	}
 
 	/*
@@ -153,6 +239,7 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 		this.isMainMenuPressed = false;
 		this.isMainMenuClicked = false;
 		this.isGameOver = false;
+		this.canMove = true;
 		
 	}
 
@@ -788,6 +875,7 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 			while(canMove()) {
 				moveSnake();
 				updateAll();
+				
 				//choosePath is embedded in moveSnake
 				
 
@@ -804,12 +892,19 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 	
 				//Pause, then make next move
 				try {
-					Thread.sleep(40);
+					Thread.sleep(this.speed);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				repaint();
+			}
+			
+			try {
+				fileWriter();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 			
 			if(this.isGameOver) {
@@ -1037,6 +1132,7 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 		} else {
 			g.drawString("Score: " + (this.snakeLength - 2), 700, 300);
 		}
+		g.drawString("High score: " + (this.longestSnakeLength - 2), 670, 350);
 		
 		if(canMove() == false) {
 			g.setColor(color);
@@ -1066,8 +1162,6 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 				g.setFont(new Font("Courier", Font.BOLD,20));
 				g.drawString("Play Again", 190, 407);
 				
-				
-				repaint();
 				
 			}
 		}
@@ -1188,6 +1282,11 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void chooseSpeed(int speed) {
+		this.speed = speed;
+	}
+	
 }
 
 
