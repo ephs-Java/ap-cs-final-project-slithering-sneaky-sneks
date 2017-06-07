@@ -1,8 +1,13 @@
+package Snake;
 import java.util.Random;
 import java.util.Scanner;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -20,6 +25,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Snake extends JFrame implements KeyListener, MouseListener, Runnable {
 
@@ -63,6 +72,13 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 	private boolean isMainMenuPressed;
 	private boolean isMainMenuClicked;
 	private boolean isGameOver;
+	
+	private boolean canMove;
+	private int speed;
+	private int headColor;
+	private int bodyColor;
+	private int fruitColor;
+	private int backgroundColor;
 
 
 	/* * * * * * * * * * * * * * * * * * *
@@ -73,11 +89,17 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 	 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
 	 * * * * * * * * * * * * * * * * * * */
 
-	public Snake() {
+	public Snake() throws FileNotFoundException {
 
+		Scanner input = new Scanner(new File("High Score"));
+		String l = "";
+		while(input.hasNext()) {
+			l = input.next();
+	
+		}
 		
+		this.longestSnakeLength = Integer.valueOf(l);
 		initialize();
-		this.longestSnakeLength = 2;
 		setTitle("Snake");
 		
 		setSize(850, 1000);
@@ -86,6 +108,142 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addKeyListener(this);
 		addMouseListener(this);
+		
+		this.headColor = 0;
+		this.bodyColor = 1;
+		this.fruitColor = 2;
+		this.backgroundColor = 8;
+		
+		System.setProperty("apple.laf.useScreenMenuBar", "true");
+		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Name");
+		JMenuBar menuBar = new JMenuBar();
+		
+		//Creates options menu
+		JMenu options = new JMenu("Options");
+		menuBar.add(options);
+		
+		
+		
+		JMenu color = new JMenu("Color Scheme");
+		
+		JCheckBoxMenuItem classic = new JCheckBoxMenuItem("Classic");
+		JCheckBoxMenuItem by = new JCheckBoxMenuItem("Blue and Yellow");
+		JCheckBoxMenuItem ob = new JCheckBoxMenuItem("Orange and Blue");
+		JCheckBoxMenuItem cloud = new JCheckBoxMenuItem("Cloud");
+		
+		color.add(classic);
+		color.add(by);
+		color.add(ob);
+		color.add(cloud);
+		
+		
+		classic.setSelected(true);
+		
+		 classic.addActionListener(new ActionListener() {
+		        
+
+				public void actionPerformed(ActionEvent actionEvent) {
+					chooseColor("classic");
+					classic.setSelected(true);
+					by.setSelected(false);
+					ob.setSelected(false);
+					cloud.setSelected(false);
+		        }
+				
+		    });
+		 
+		 by.addActionListener(new ActionListener() {
+		        
+
+				public void actionPerformed(ActionEvent actionEvent) {
+					chooseColor("by");
+					classic.setSelected(false);
+					by.setSelected(true);
+					ob.setSelected(false);
+					cloud.setSelected(false);
+		        }
+				
+		    });
+		 
+		 ob.addActionListener(new ActionListener() {
+		        
+
+				public void actionPerformed(ActionEvent actionEvent) {
+					chooseColor("ob");
+					classic.setSelected(false);
+					by.setSelected(false);
+					ob.setSelected(true);
+					cloud.setSelected(false);
+		        }
+				
+		    });
+		 
+		 cloud.addActionListener(new ActionListener() {
+		        
+
+				public void actionPerformed(ActionEvent actionEvent) {
+					chooseColor("cloud");
+					classic.setSelected(false);
+					by.setSelected(false);
+					ob.setSelected(false);
+					cloud.setSelected(true);
+		        }
+				
+		    });
+		
+		
+		//Creates submenu speed within options menu
+				JMenu speed = new JMenu("Speed");
+				
+		//Creates items fast, medium, slow within submenu
+		JCheckBoxMenuItem fast = new JCheckBoxMenuItem("Fast");
+		JCheckBoxMenuItem medium = new JCheckBoxMenuItem("Medium");
+		JCheckBoxMenuItem slow = new JCheckBoxMenuItem("Slow");
+		
+		speed.add(fast);
+		speed.add(medium);
+		speed.add(slow);
+		options.add(speed);
+		options.add(color);
+		
+		setJMenuBar(menuBar);
+		this.speed = 40;
+		
+		medium.setSelected(true);
+		
+		 fast.addActionListener(new ActionListener() {
+		        
+
+				public void actionPerformed(ActionEvent actionEvent) {
+					chooseSpeed(20);
+					fast.setSelected(true);
+					medium.setSelected(false);
+					slow.setSelected(false);
+		        }
+				
+		    });
+	
+		 medium.addActionListener(new ActionListener() {
+		     
+
+				public void actionPerformed(ActionEvent actionEvent) {
+					chooseSpeed(40);
+					fast.setSelected(false);
+					medium.setSelected(true);
+					slow.setSelected(false);
+		        }
+		    });
+		 
+		 slow.addActionListener(new ActionListener() {
+		   
+
+				public void actionPerformed(ActionEvent actionEvent) {
+					chooseSpeed(60);
+					fast.setSelected(false);
+					medium.setSelected(false);
+					slow.setSelected(true);
+		        }
+		    });
 	
 		
 
@@ -102,6 +260,15 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 	/*
 	 * Updates all methods
 	 */
+	
+	public void fileWriter() throws IOException {
+		FileWriter fw = new FileWriter("High Score");
+		
+		fw.write("" + this.longestSnakeLength);
+		
+		fw.close();
+	}
+	
 	public void updateAll(){
 		udpateIsEast();
 		updateIsNorth();
@@ -112,6 +279,7 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 		updateIsFacingSouth();
 		updateIsFacingWest();
 		updateIsComplete();
+		
 	}
 
 	/*
@@ -153,6 +321,7 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 		this.isMainMenuPressed = false;
 		this.isMainMenuClicked = false;
 		this.isGameOver = false;
+		this.canMove = true;
 		
 	}
 
@@ -788,6 +957,7 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 			while(canMove()) {
 				moveSnake();
 				updateAll();
+				
 				//choosePath is embedded in moveSnake
 				
 
@@ -804,12 +974,19 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 	
 				//Pause, then make next move
 				try {
-					Thread.sleep(40);
+					Thread.sleep(this.speed);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				repaint();
+			}
+			
+			try {
+				fileWriter();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 			
 			if(this.isGameOver) {
@@ -996,27 +1173,65 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 		for(int r = 0; r < this.gameboard.length; r++) {
 			for(int c = 0; c < this.gameboard[0].length; c++) {
 				if(this.gameboard[r][c] == 1) {
-					g.setColor(Color.red);
+					
+					//Choose head color
+					if(this.headColor == 0) {
+						g.setColor(Color.red);
+					} else if(this.headColor == 3) {
+						g.setColor(Color.BLUE);
+					} else if(this.headColor == 4) {
+						g.setColor(Color.ORANGE);
+					} else if(this.headColor == 6) {
+						g.setColor(new Color(255, 179, 209));
+					}
+					
 					g.fillRect(x, y, 10, 10);
 					g.setColor(Color.black);
 					g.drawRect(x, y, 10, 10);
 					x = x + 10;
 				} else if (this.gameboard[r][c] == -1){
-					g.setColor(Color.yellow);
+					
+					//Chooses fruit color
+					if(this.fruitColor == 2) {
+						g.setColor(Color.yellow);
+					} else if(this.fruitColor == 0) {
+						g.setColor(Color.RED);
+					}
+					
 					g.fillRect(x, y, 10, 10);
 					g.setColor(Color.black);
 					g.drawRect(x, y, 10, 10);
 					x = x + 10;
 				} else if(this.gameboard[r][c] > 0) {
-					g.setColor(color);
+					
+					//Chooses body color
+					if(this.bodyColor == 1) {
+						g.setColor(color);
+					} else if(this.bodyColor == 2) {
+						g.setColor(Color.YELLOW);
+					} else if(this.bodyColor == 3) {
+						g.setColor(Color.BLUE);
+					} else if(this.bodyColor == 7) {
+						g.setColor(new Color(179, 209, 255));
+					}
+					
 					g.fillRect(x, y, 10, 10);
 					g.setColor(Color.black);
 					g.drawRect(x, y, 10, 10);
 					x = x + 10;
 				} else {
-					g.setColor(Color.BLACK);
+					if(this.backgroundColor == 5) {
+						g.setColor(Color.white);
+					} else {
+						g.setColor(Color.BLACK);
+					}
+			
 					g.fillRect(x, y, 10, 10);
-					g.setColor(Color.black);
+					if(this.backgroundColor == 5) {
+						g.setColor(Color.WHITE);
+					} else {
+						g.setColor(Color.black);
+					}
 					g.drawRect(x, y, 10, 10);
 					x = x + 10;
 				}
@@ -1037,6 +1252,7 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 		} else {
 			g.drawString("Score: " + (this.snakeLength - 2), 700, 300);
 		}
+		g.drawString("High score: " + (this.longestSnakeLength - 2), 670, 350);
 		
 		if(canMove() == false) {
 			g.setColor(color);
@@ -1066,8 +1282,6 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 				g.setFont(new Font("Courier", Font.BOLD,20));
 				g.drawString("Play Again", 190, 407);
 				
-				
-				repaint();
 				
 			}
 		}
@@ -1188,6 +1402,37 @@ public class Snake extends JFrame implements KeyListener, MouseListener, Runnabl
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void chooseSpeed(int speed) {
+		this.speed = speed;
+	}
+	
+	//0 = red, 1 = green, 2 = yellow, 3 = blue, 4 = orange, 5 = white, 6 = pink, 7 = light blue, 8 = black
+	public void chooseColor(String color) {
+		if(color == "classic") {
+			this.headColor = 0;
+			this.bodyColor = 1;
+			this.fruitColor = 2;
+			this.backgroundColor = 8;
+		} else if(color == "by") {
+			this.headColor = 3;
+			this.bodyColor = 2;
+			this.fruitColor = 0;
+			this.backgroundColor = 8;
+		} else if(color == "ob") {
+			this.headColor = 4;
+			this.bodyColor = 3;
+			this.fruitColor = 2;
+			this.backgroundColor = 8;
+		} else if(color == "cloud") {
+			this.headColor = 6;
+			this.bodyColor = 7;
+			this.fruitColor = 2;
+			this.backgroundColor = 5;
+		}
+		
+	}
+	
 }
 
 
